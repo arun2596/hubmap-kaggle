@@ -112,7 +112,7 @@ class Trainer:
             image, mask, target_ind = image.cuda(), mask.cuda(), target_ind.cuda()
 
             mask_pred = self.model.forward(image)
-
+            mask_pred = torch.sigmoid(mask_pred)
             loss = DiceLoss(mask, mask_pred, target_ind)
             count += target_ind.size(0)
             losses.update(loss.item(), target_ind.size(0))  # ------ may need to change this ?
@@ -168,7 +168,7 @@ class Evaluator:
                 image, mask, target_ind = image.cuda(), mask.cuda(), target_ind.cuda()
 
                 mask_pred = self.model.forward(image)
-
+                mask_pred = torch.sigmoid(mask_pred)
                 loss =  DiceLoss(mask, mask_pred,target_ind)
                 # print(loss)
                 losses.update(loss.item(), target_ind.size(0))

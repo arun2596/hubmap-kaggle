@@ -210,16 +210,14 @@ class FlipLR(object):
 def DiceLoss(mask, mask_pred, target_ind, smooth=1):
     #
     mask_shape = mask.shape
-    mask_pred = torch.sigmoid(mask_pred)
-    
     mask_pred = torch.gather(mask_pred,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
     mask = torch.gather(mask,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
     
-
     #flatten
-    mask = mask.view(-1)
-    mask_pred = mask_pred.view(-1)
+    mask = mask.view(mask.shape[0], -1)
+    mask_pred = mask_pred.view(mask_pred.shape[0],-1)
     #element_wise production to get intersection score
-    intersection = (mask*mask_pred).sum()
-    dice_score = (2*intersection + smooth) / (mask.sum() + mask_pred.sum() + smooth)
-    return 1 - dice_score
+    intersection = (mask*mask_pred).sum(dim=1)
+
+    dice_score = torch.div(2*intersection + smooth , mask.sum(dim=1) + mask_pred.sum(dim=1) + smooth)
+    return 1 - dice_score.mean()
