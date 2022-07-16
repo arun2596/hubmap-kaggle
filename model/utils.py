@@ -242,6 +242,29 @@ class AlbuAngleRotate(object):
         image, mask[target_ind,:,:] = albu_out['image'], albu_out['mask']
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
 
+class AlbuElastic(object):
+
+    def __init__(self, proba):
+        self.proba = proba
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        albu_out =  A.augmentations.geometric.transforms.ElasticTransform (alpha=1, sigma=50, alpha_affine=50, interpolation=1, border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, always_apply=False, approximate=False, same_dxdy=False, p=self.proba)(image=image, mask= mask[target_ind,:,:])
+        image, mask[target_ind,:,:] = albu_out['image'], albu_out['mask']
+        return {'image': image, 'mask': mask, 'target_ind': target_ind}
+
+class AlbuCoarseDropout(object):
+
+    def __init__(self, proba):
+        self.proba = proba
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        albu_out =  A.augmentations.dropout.coarse_dropout.CoarseDropout (max_holes=8, max_height=8, max_width=8, min_holes=None, min_height=None, min_width=None, fill_value=0, mask_fill_value=0, always_apply=False, p=self.proba)(image=image, mask= mask[target_ind,:,:])
+        image, mask[target_ind,:,:] = albu_out['image'], albu_out['mask']
+        return {'image': image, 'mask': mask, 'target_ind': target_ind}
+
+
 
 
 class ToAlbuNumpy():

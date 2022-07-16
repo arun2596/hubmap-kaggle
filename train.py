@@ -42,9 +42,9 @@ optimizer = torch.optim.Adam([
 
 
 config = {
-'batch_size': 8,
+'batch_size': 16,
 'evaluate_interval': 1,
-'epochs': 200,
+'epochs': 400,
 'num_folds': 1
 }
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, config)
