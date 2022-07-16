@@ -75,10 +75,16 @@ def make_loader(
     transform = {'train': transforms.Compose([
         SquarePad(),
         Rescale(input_shape),
+        FlipLR(0.5),
+        FlipTD(0.5),
+        ToAlbuNumpy(),
+        AlbuAngleRotate(0.3),
+        AlbuHSVShift(0.5),
+        ToTensor(),
         Rerange(),
         Normalize(mean=[0.485, 0.456, 0.406],
-                  std=[0.229, 0.224, 0.225]),
-        FlipLR(0.5)
+                 std=[0.229, 0.224, 0.225]),
+        
     ]),
         'valid': transforms.Compose([
             SquarePad(),

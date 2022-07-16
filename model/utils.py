@@ -38,6 +38,10 @@ import random
 
 from sklearn import model_selection
 
+import albumentations as A
+
+import cv2
+
 
 def set_seed(seed):
     np.random.seed(seed)
@@ -201,6 +205,70 @@ class FlipLR(object):
         
 
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
+
+class FlipTD(object):
+
+    def __init__(self, proba):
+        self.proba = proba
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        if random.random()<self.proba:
+          image = F.vflip(image)
+          mask = F.vflip(mask)
+
+        return {'image': image, 'mask': mask, 'target_ind': target_ind}
+
+
+class AlbuHSVShift(object):
+
+    def __init__(self, proba):
+        self.proba = proba
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        image=  A.augmentations.transforms.HueSaturationValue(p=self.proba, hue_shift_limit=30, sat_shift_limit=30, val_shift_limit=20)(image=image)['image']
+        return {'image': image, 'mask': mask, 'target_ind': target_ind}
+
+
+class AlbuAngleRotate(object):
+
+    def __init__(self, proba):
+        self.proba = proba
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        albu_out =  A.augmentations.geometric.rotate.Rotate (limit=180, interpolation=1, border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, crop_border=False, always_apply=False, p=self.proba)(image=image, mask= mask[target_ind,:,:])
+        image, mask[target_ind,:,:] = albu_out['image'], albu_out['mask']
+        return {'image': image, 'mask': mask, 'target_ind': target_ind}
+
+
+
+class ToAlbuNumpy():
+    def __init__(self):
+        pass
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        sample = {
+            'image': image.numpy().astype('uint8').transpose((1,2,0)),
+            'mask': mask.numpy(),
+            'target_ind': target_ind.numpy(),
+        }
+        return sample  
+
+class ToTensor():
+    def __init__(self):
+        pass
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        sample = {
+            'image': torch.tensor(image.transpose((2, 0, 1)), dtype=torch.float),
+            'mask': torch.tensor(mask, dtype=torch.float32),
+            'target_ind': torch.tensor(target_ind, dtype=torch.int64),
+        }
+        return sample   
 
 
 ################ LOSS FUNCITONS #############
