@@ -74,9 +74,13 @@ def make_loader(
 
     transform = {'train': transforms.Compose([
         SquarePad(),
+        # FlipLR(0.3),
+        # FlipTD(0.3),
+        ToAlbuNumpy(),
+        AlbuRandomScale(0.5),
+        ToTensor(),
+        PadToSize(3000,0.5),
         Rescale(input_shape),
-        FlipLR(0.3),
-        FlipTD(0.3),
         ToAlbuNumpy(),
         AlbuAngleRotate(0.4),
         AlbuHSVShift(0.3),
@@ -106,7 +110,7 @@ def make_loader(
         sampler=train_sampler,
         pin_memory=True,
         drop_last=False,
-        num_workers=8
+        num_workers=16
     )
 
     valid_sampler = SequentialSampler(dataset['valid'])

@@ -15,7 +15,14 @@ df_train = pd.read_csv(TRAIN_CSV_FILE)
 df_train['kfold'] = 1
 df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
-train_loader, valid_loader = make_loader(df_train, 8)
+config = {
+'batch_size': 8,
+'evaluate_interval': 1,
+'epochs': 400,
+'num_folds': 1
+}
+
+train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,640))
 
 
 
@@ -41,12 +48,7 @@ optimizer = torch.optim.Adam([
     ])
 
 
-config = {
-'batch_size': 16,
-'evaluate_interval': 1,
-'epochs': 400,
-'num_folds': 1
-}
+
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, config)
 trainHandler.run()
 

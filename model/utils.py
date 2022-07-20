@@ -124,6 +124,8 @@ class AverageMeter(object):
             self.min = val
 
 
+
+
 class SquarePad(object):
     def __call__(self, sample):
         image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
@@ -131,10 +133,30 @@ class SquarePad(object):
         img_size = image.size()[1:]
         max_wh = max(img_size)
 
-        p_left, p_top = [(max_wh - s) // 2 for s in img_size]
-        p_right, p_bottom = [max_wh - (s + pad) for s, pad in zip(img_size, [p_left, p_top])]
+        p_top, p_left = [(max_wh - s) // 2 for s in img_size]
+        p_bottom, p_right = [max_wh - (s + pad) for s, pad in zip(img_size, [p_top, p_left])]
         padding = [p_left, p_top, p_right, p_bottom]
         return {'image': F.pad(image, padding, 0, 'constant'), 'mask': F.pad(mask, padding, 0, 'constant'), 'target_ind':target_ind}
+
+class PadToSize(object):
+    def __init__(self, size, proba):
+        self.size = size
+        self.proba=proba
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+
+        img_size = image.size()[1:]
+        max_wh = max(img_size)
+        if max_wh<self.size and random.random()<self.proba:
+            p_top, p_left = [(self.size - s) // 2 for s in img_size]
+            p_bottom, p_right = [self.size - (s + pad) for s, pad in zip(img_size, [p_top, p_left])]
+            padding = [p_left, p_top, p_right, p_bottom]
+            
+            image =  F.pad(image, padding, 0, 'constant')
+            mask = F.pad(mask, padding, 0, 'constant')
+        return {'image': image, 'mask': mask, 'target_ind':target_ind}
+
 
 
 class Rescale(object):
@@ -228,6 +250,19 @@ class AlbuHSVShift(object):
     def __call__(self, sample):
         image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
         image=  A.augmentations.transforms.HueSaturationValue(p=self.proba, hue_shift_limit=30, sat_shift_limit=30, val_shift_limit=20)(image=image)['image']
+        return {'image': image, 'mask': mask, 'target_ind': target_ind}
+
+class AlbuRandomScale(object):
+
+    def __init__(self, proba):
+        self.proba = proba
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        albu_res =  A.augmentations.geometric.resize.RandomScale(scale_limit=(-0.9,0.5), interpolation=1, always_apply=False, p=self.proba)(image=image, mask= mask[target_ind,:,:])
+        image = albu_res['image']
+        mask = np.zeros((mask.shape[0],albu_res['mask'].shape[0],albu_res['mask'].shape[1]))
+        mask[target_ind,:,:] = (albu_res['mask']>0)*1
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
 
 
