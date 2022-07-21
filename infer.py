@@ -92,5 +92,5 @@ print(np.mean(all_losses,axis=0))
 # plot val score to see divergence
 # use pixel size information to rescale images 
 # Send pad offset values in test data ..easier
-
+# Lovasz loss with relu->ELu+1
 #LR Scheduler

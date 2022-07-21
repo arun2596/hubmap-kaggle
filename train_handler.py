@@ -10,9 +10,10 @@ from config import *
 
 class TrainHandler:
 
-    def __init__(self, model, train_loader, valid_loader, optimizer, config):
+    def __init__(self, model, train_loader, valid_loader, optimizer, scheduler, config):
         self.model=model
         self.optimizer = optimizer
+        self.scheduler=scheduler
         self.train_loader = train_loader
         self.valid_loader = valid_loader
         self.config = config
@@ -32,6 +33,7 @@ class TrainHandler:
                                         train_loader = self.train_loader,
                                         valid_loader = self.valid_loader,
                                         optimizer = self.optimizer,
+                                        scheduler = self.scheduler,
                                         batch_size=self.config['batch_size'],
                                         fold=fold,
                                         model_ouput_location=self.folder_name,
@@ -47,7 +49,7 @@ class TrainHandler:
         self.logger.save_log()
 
 
-    def run_fold(self, model, train_loader, valid_loader, optimizer, batch_size, fold=0,
+    def run_fold(self, model, train_loader, valid_loader, optimizer, scheduler,batch_size, fold=0,
                  model_ouput_location="", epochs=1, evaluate_interval_fraction=1, strict=True):
 
 
@@ -60,7 +62,7 @@ class TrainHandler:
         }
 
 
-        trainer = Trainer(model, optimizer, model_output_location=model_ouput_location, logger=self.logger,
+        trainer = Trainer(model, optimizer, scheduler, model_output_location=model_ouput_location, logger=self.logger,
                           evaluate_interval_fraction=evaluate_interval_fraction,
                           config=self.config)
 
@@ -88,12 +90,13 @@ class TrainHandler:
 
 
 class Trainer:
-    def __init__(self, model, optimizer,
+    def __init__(self, model, optimizer, scheduler,
                  model_output_location, logger, config, log_interval=1,
                  evaluate_interval_fraction=1):
         self.model = model
         self.config = config
         self.optimizer = optimizer
+        self.scheduler = scheduler
         self.log_interval = log_interval
         self.evaluate_interval_fraction = evaluate_interval_fraction
         self.evaluator = Evaluator(self.model)
@@ -151,6 +154,7 @@ class Trainer:
                     torch.save(self.model.state_dict(), os.path.join(self.model_output_location, f"model{fold}.bin"))
                 self.model.train()
         result_dict['train_loss'].append(losses.avg)
+        self.scheduler.step()
         return result_dict
 
 

@@ -47,9 +47,9 @@ optimizer = torch.optim.Adam([
         {'params': model.encoder.parameters(), 'lr': 1e-3},
     ])
 
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [200, 250, 300, 350], gamma=0.6, last_epoch=- 1, verbose=False)
 
-
-trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, config)
+trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 
 #  model
