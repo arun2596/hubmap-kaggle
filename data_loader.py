@@ -40,7 +40,12 @@ class DatasetRetriever(Dataset):
     def __getitem__(self, item):
         img_id, rle = self.img_id[item], self.rles[item]
 
-        img_name = os.path.join(self.data_dir, str(img_id) + '.tiff')
+        #adding stained images
+        stain_prob=0.3
+        if random.random()<stain_prob:
+            img_name = os.path.join(STAINED_IMAGES_DIR, str(img_id) + '.tiff')
+        else:
+            img_name = os.path.join(self.data_dir, str(img_id) + '.tiff')
 
         image = cv2.cvtColor(cv2.imread(img_name), cv2.COLOR_BGR2RGB)
         
@@ -120,7 +125,7 @@ def make_loader(
         sampler=valid_sampler,
         pin_memory=True,
         drop_last=False,
-        num_workers=4
+        num_workers=2
     )
 
     return train_loader, valid_loader

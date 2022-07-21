@@ -30,10 +30,10 @@ train_loader, valid_loader = make_loader(df_train, 2)
 #     print(i['image'].shape)
 #     break
 
-
 for i in train_loader:
     # if i['target_ind'].numpy()[0]!=2:
     #     continue
+
     img = i['image'][0,:,:,:].view(3,640,640).permute((1, 2, 0)).numpy()
     mask_shape = i['mask'].shape
     mask = torch.gather(i['mask'],1, i['target_ind'].view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))[0,:,:,:].view(640,640)
@@ -48,6 +48,8 @@ for i in train_loader:
 
     # cv2.imshow("predicted", ((mask_pred>0.1)*255/mask_pred.max()).astype('uint8'))
     # cv2.imshow("original", (mask.numpy()*255).astype('uint8'))
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
     cv2.imshow("mask", mask.numpy().astype('uint8')*255)
     cv2.imshow("img",img.astype('uint8'))
 
@@ -76,3 +78,9 @@ for i in train_loader:
 #     cv2.imshow('image',cv2.resize(img,(1500,1500)))
 #     cv2.waitKey()
 # cv2.destroyAllWindows()
+
+
+    # print()
+    # cv2.imshow("stained",cv2.cvtColor(image,cv2.COLOR_RGB2BGR))
+    # cv2.waitKey()
+    # cv2.destroyAllWindows()

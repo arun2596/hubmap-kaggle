@@ -1,6 +1,9 @@
 
 import numpy as np
 from itertools import groupby
+import staintools
+from config import TEST_IMAGES_DIR
+import os 
 
 def rleToMask(rleString,height,width):
   rows,cols = height,width
@@ -157,6 +160,22 @@ class PadToSize(object):
             mask = F.pad(mask, padding, 0, 'constant')
         return {'image': image, 'mask': mask, 'target_ind':target_ind}
 
+class StainNormalise(object):
+    def __init__(self, proba):
+        self.proba=proba
+        self.normalizer = staintools.StainNormalizer(method='vahadane')
+
+        img = cv2.cvtColor(cv2.imread(os.path.join(TEST_IMAGES_DIR,"10078.tiff")), cv2.COLOR_BGR2RGB)
+
+        self.normalizer.fit(img)
+
+
+    def __call__(self, sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        if random.random()<self.proba:
+            image = self.normalizer.transform(image)
+  
+        return {'image': image, 'mask': mask, 'target_ind':target_ind}
 
 
 class Rescale(object):

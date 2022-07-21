@@ -28,7 +28,7 @@ model = smp.Unet(
     classes=5,                      # model output channels (number of classes in your dataset)
 )
 
-thresholds = [0.05, 0.1, 0.3, 0.5]
+thresholds = [0.1, 0.2, 0.3]
 
 model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "model0.bin")), strict=True)
 model = model.cuda()
@@ -93,4 +93,6 @@ print(np.mean(all_losses,axis=0))
 # use pixel size information to rescale images 
 # Send pad offset values in test data ..easier
 # Lovasz loss with relu->ELu+1
+#Simulate tissue thickness variations
+
 #LR Scheduler
