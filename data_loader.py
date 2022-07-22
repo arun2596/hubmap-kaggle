@@ -42,7 +42,7 @@ class DatasetRetriever(Dataset):
 
         #adding stained images
         stain_prob=0.3
-        if random.random()<stain_prob:
+        if random.random()<stain_prob and self.mode=='train':
             img_name = os.path.join(STAINED_IMAGES_DIR, str(img_id) + '.tiff')
         else:
             img_name = os.path.join(self.data_dir, str(img_id) + '.tiff')

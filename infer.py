@@ -30,7 +30,7 @@ model = smp.Unet(
 
 thresholds = [0.1, 0.2, 0.3]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "baseline+lrsched", "model0.bin")), strict=True)
 model = model.cuda()
 model.eval()
 all_losses = None
