@@ -1,9 +1,10 @@
+from distutils.command.config import config
 import torch
 import os
 import numpy as np
 import time
 
-from model.utils import DiceLoss, Logger, AverageMeter
+from model.utils import DiceLoss, Logger, AverageMeter, symmetric_lovasz
 from config import *
 # from utils.data_handler import make_loader
 
@@ -58,7 +59,8 @@ class TrainHandler:
             'epoch': [],
             'train_loss': [],
             'val_loss': [],
-            'best_val_loss': np.inf
+            'best_val_loss': np.inf,
+            'val_metric':[]
         }
 
 
@@ -99,13 +101,15 @@ class Trainer:
         self.scheduler = scheduler
         self.log_interval = log_interval
         self.evaluate_interval_fraction = evaluate_interval_fraction
-        self.evaluator = Evaluator(self.model)
+        self.evaluator = Evaluator(self.model, self.config)
         self.model_output_location = model_output_location
         self.logger = logger
 
     def train(self, train_loader, valid_loader, epoch, result_dict, fold):
         count = 0
         losses = AverageMeter()
+        if self.config['metric']!=None:
+            metrics = AverageMeter()
 
         self.model.train()
 
@@ -115,8 +119,18 @@ class Trainer:
             image, mask, target_ind = image.cuda(), mask.cuda(), target_ind.cuda()
 
             mask_pred = self.model.forward(image)
-            mask_pred = torch.sigmoid(mask_pred)
-            loss = DiceLoss(mask, mask_pred, target_ind)
+            if self.config['loss']=='dice':
+                mask_pred_sigmoid = torch.sigmoid(mask_pred)
+                loss = DiceLoss(mask, mask_pred_sigmoid, target_ind)
+            elif self.config['loss'] == 'symmetric_lovasz':
+                loss = symmetric_lovasz(mask, mask_pred, target_ind)
+
+            if self.config['metric']!=None:
+                if self.config['metric']=='dice':
+                    mask_pred_sigmoid = torch.sigmoid(mask_pred)
+                    metric = DiceLoss(mask, mask_pred_sigmoid, target_ind)
+                    metrics.update(metric.item(), target_ind.size(0))
+            
             count += target_ind.size(0)
             losses.update(loss.item(), target_ind.size(0))  # ------ may need to change this ?
 
@@ -125,6 +139,8 @@ class Trainer:
             self.optimizer.step()
 
             self.optimizer.zero_grad()
+
+            self.scheduler.step()
 
             if batch_idx % self.log_interval == 0:
                 _s = str(len(str(len(train_loader.sampler))))
@@ -136,6 +152,9 @@ class Trainer:
                                                                                    train_loader.sampler)),
                     'train_loss: {: >4.5f}'.format(losses.avg),
                 ]
+
+                if self.config['metric']!=None:
+                    ret.append( self.config['metric'] + '_' + 'train_metric: {: >4.5f}'.format(metrics.avg))
 
                 self.logger.log(', '.join(ret))
 
@@ -150,21 +169,25 @@ class Trainer:
                                                                                                      result_dict[
                                                                                                          'val_loss'][
                                                                                                          -1]))
+                    if self.config['metric']!=None:
+                        self.logger.log(self.config['metric'] + "_" + "valid_metric: {: >4.5f}".format(result_dict['val_metric'][-1]))
                     result_dict["best_val_loss"] = result_dict['val_loss'][-1]
                     torch.save(self.model.state_dict(), os.path.join(self.model_output_location, f"model{fold}.bin"))
                 self.model.train()
         result_dict['train_loss'].append(losses.avg)
-        self.scheduler.step()
+        
         return result_dict
 
 
 class Evaluator:
-    def __init__(self, model):
+    def __init__(self, model, config):
         self.model = model
+        self.config = config
 
     def evaluate(self, data_loader, epoch, result_dict):
         losses = AverageMeter()
-
+        if self.config['metric']!=None:
+            metrics = AverageMeter()
         self.model.eval()
         with torch.no_grad():
             for batch_idx, batch_data in enumerate(data_loader):
@@ -172,13 +195,29 @@ class Evaluator:
                 image, mask, target_ind = image.cuda(), mask.cuda(), target_ind.cuda()
 
                 mask_pred = self.model.forward(image)
-                mask_pred = torch.sigmoid(mask_pred)
-                loss =  DiceLoss(mask, mask_pred,target_ind)
+                if self.config['loss']=='dice':
+                    mask_pred_sigmoid = torch.sigmoid(mask_pred)
+                    loss =  DiceLoss(mask, mask_pred_sigmoid,target_ind)
+                elif self.config['loss'] == 'symmetric_lovasz':
+                    loss = symmetric_lovasz(mask, mask_pred, target_ind) 
                 # print(loss)
                 losses.update(loss.item(), target_ind.size(0))
+
+                if self.config['metric']!=None:
+                    if self.config['metric']=='dice':
+                        mask_pred_sigmoid = torch.sigmoid(mask_pred)
+                        metric = DiceLoss(mask, mask_pred_sigmoid, target_ind)
+                    metrics.update(metric.item(), target_ind.size(0))
+
+
 
         print('----Validation Results Summary----')
         print('Epoch: [{}] valid_loss: {: >4.5f}'.format(epoch, losses.avg))
 
         result_dict['val_loss'].append(losses.avg)
+        if self.config['metric']!=None:
+            result_dict['val_metric'].append(metrics.avg)
+            print('Epoch: [{}] valid_metric: {: >4.5f}'.format(epoch, metrics.avg))
+
+
         return result_dict

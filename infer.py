@@ -18,7 +18,7 @@ df_train = pd.read_csv(TRAIN_CSV_FILE)
 df_train['kfold'] = 1
 df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
-train_loader, valid_loader = make_loader(df_train, 2)
+train_loader, valid_loader = make_loader(df_train, 2, input_shape=640)
 
 
 model = smp.Unet(
@@ -28,7 +28,7 @@ model = smp.Unet(
     classes=5,                      # model output channels (number of classes in your dataset)
 )
 
-thresholds = [0.1, 0.2, 0.3]
+thresholds = [0.1, 0.05]
 
 model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "baseline+lrsched", "model0.bin")), strict=True)
 model = model.cuda()
@@ -81,18 +81,18 @@ print(loss_df.groupby('target').mean())
 print(all_losses.shape)
 print(np.mean(all_losses,axis=0))
 
-# add random resize dow to handle small images in test set
-# reduce the image by a factor.. dont resize to constant
+
 # enable grids
-# change prediction resizing to factors
-# size of ftus would be changing
+
 # not all parts of the lungs h
-# try stain transfer
+
 # What if object sizes are bigger - we have only handled smaller object sizes
-# plot val score to see divergence
+
 # use pixel size information to rescale images 
 # Send pad offset values in test data ..easier
 # Lovasz loss with relu->ELu+1
 #Simulate tissue thickness variations
 
 #LR Scheduler
+# Add TTA for pred
+# self teaching

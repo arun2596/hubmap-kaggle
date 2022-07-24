@@ -52,6 +52,7 @@ def set_seed(seed):
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
+    
     return
 
 
@@ -268,7 +269,7 @@ class AlbuHSVShift(object):
 
     def __call__(self, sample):
         image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
-        image=  A.augmentations.transforms.HueSaturationValue(p=self.proba, hue_shift_limit=30, sat_shift_limit=30, val_shift_limit=20)(image=image)['image']
+        image=  A.augmentations.transforms.HueSaturationValue(p=self.proba, hue_shift_limit=180, sat_shift_limit=30, val_shift_limit=20)(image=image)['image']
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
 
 class AlbuRandomScale(object):
@@ -319,6 +320,15 @@ class AlbuCoarseDropout(object):
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
 
 
+class AlbuDownScale(object):
+
+    def __init__(self,proba):
+        self.proba=proba
+    
+    def __call__(self,sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        image = A.augmentations.transforms.Downscale (scale_min=0.2, scale_max=0.7, interpolation=0, always_apply=False, p=self.proba)(image=image)['image']
+        return {'image': image, 'mask': mask, 'target_ind': target_ind}
 
 
 class ToAlbuNumpy():
@@ -350,10 +360,13 @@ class ToTensor():
 
 ################ LOSS FUNCITONS #############
 
+from lovazs_loss import lovasz_hinge
 
 
-def DiceLoss(mask, mask_pred, target_ind, smooth=1):
+def DiceLoss(mask, mask_pred, target_ind, with_logits=False, smooth=1):
     #
+    if with_logits:
+        mask_pred = torch.sigmoid(mask_pred)    
     mask_shape = mask.shape
     mask_pred = torch.gather(mask_pred,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
     mask = torch.gather(mask,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
@@ -366,3 +379,9 @@ def DiceLoss(mask, mask_pred, target_ind, smooth=1):
 
     dice_score = torch.div(2*intersection + smooth , mask.sum(dim=1) + mask_pred.sum(dim=1) + smooth)
     return 1 - dice_score.mean()
+
+def symmetric_lovasz(mask, mask_pred, target_ind):
+    mask_shape = mask.shape
+    mask_pred = torch.gather(mask_pred,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
+    mask = torch.gather(mask,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
+    return 0.5*(lovasz_hinge(mask_pred, mask) + lovasz_hinge(-mask_pred, 1.0 - mask))

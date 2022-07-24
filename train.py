@@ -18,8 +18,11 @@ df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 config = {
 'batch_size': 8,
 'evaluate_interval': 1,
-'epochs': 400,
-'num_folds': 1
+'epochs': 200,
+'num_folds': 1,
+'scheduler': 'onecycle',
+'loss': 'symmetric_lovasz',
+'metric': 'dice'
 }
 
 train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,640))
@@ -47,8 +50,10 @@ optimizer = torch.optim.Adam([
         {'params': model.encoder.parameters(), 'lr': 1e-3},
     ])
 
-scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [200, 250, 300, 350], gamma=0.6, last_epoch=- 1, verbose=False)
-
+if config['scheduler']=='multistep':
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [200, 250, 300, 350], gamma=0.6, last_epoch=- 1, verbose=False)
+elif config['scheduler'] == 'onecycle':
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr = 2e-3, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1, verbose=True)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 

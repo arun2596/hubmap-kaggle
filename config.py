@@ -12,6 +12,10 @@ TEST_IMAGES_DIR = os.path.join(DATA_DIR, "raw", "test_images")
 
 STAINED_IMAGES_DIR = os.path.join(DATA_DIR, "stained", "train_images")
 
+TRAIN_DIR_640 = os.path.join(DATA_DIR, "train_640")
+TRAIN_IMAGES_DIR_640 = os.path.join(TRAIN_DIR_640, "train_images_640")
+TRAIN_MASK_DIR_640 = os.path.join(TRAIN_DIR_640, "mask_640")
+
 CLASS_TO_ID = {
     'prostate':1,
     'spleen':2,

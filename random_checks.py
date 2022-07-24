@@ -26,9 +26,9 @@ import json
 
 train_loader, valid_loader = make_loader(df_train, 2)
 
-# for i in train_loader:
-#     print(i['image'].shape)
-#     break
+# # for i in train_loader:
+# #     print(i['image'].shape)
+# #     break
 
 for i in train_loader:
     # if i['target_ind'].numpy()[0]!=2:
@@ -63,21 +63,27 @@ for i in train_loader:
 
 # df_train = df_train[df_train['organ']=='lung']
 
-
-# for x,i in df_train.iterrows():
-
-#     mask = rleToMask(i['rle'],i['img_height'], i['img_width'])
-#     mask = mask.reshape(i['img_height'], i['img_width'],1)
-    
-#     with open('data/raw/train_annotations/'+str(i['id'])+'.json') as f:
-#         pol = json.load(f)
-    
-#     cv2.imshow('mask',cv2.resize(mask.astype('uint8')*255, (1500,1500)))
-#     img = cv2.imread('data/raw/train_images/'+str(i['id'])+'.tiff')
-#     cv2.putText(img, str(len(pol)) + ' ' + i['sex'] + " " + str(i['age']) + " " + str(i['id']), (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255))
-#     cv2.imshow('image',cv2.resize(img,(1500,1500)))
+# df_train['key'] = df_train.apply(lambda x: str(x['age']) + str(x['sex']), axis=1)
+# #  
+# res = (1280,1280)
+# for k in df_train['key'].unique():
+#     for x,i in df_train[df_train['key']==k].iterrows():
+        
+#         mask = rleToMask(i['rle'],i['img_height'], i['img_width'])
+#         mask = mask.reshape(i['img_height'], i['img_width'],1)
+#         mask = cv2.resize(mask,res)
+#         mask = 1*(mask>0)
+#         with open('data/raw/train_annotations/'+str(i['id'])+'.json') as f:
+#             pol = json.load(f)
+        
+#         # cv2.imshow('mask',cv2.resize(mask.astype('uint8')*255, (1500,1500)))
+#         img = cv2.imread('data/raw/train_images/'+str(i['id'])+'.tiff')
+#         img = cv2.resize(img , res)
+#         img = viz_img(img , res=(1280,1280), text=None, name="check", mask=mask)
+#         # cv2.putText(img, str(len(pol)) + ' ' + i['sex'] + " " + str(i['age']) + " " + str(i['id']), (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255))
+#         cv2.imshow('image' + str(i),img)
 #     cv2.waitKey()
-# cv2.destroyAllWindows()
+#     cv2.destroyAllWindows()
 
 
     # print()

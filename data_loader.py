@@ -26,12 +26,13 @@ class DatasetRetriever(Dataset):
         self.mode = mode
 
         if self.mode == 'train' or self.mode == 'valid':
-            self.data_dir = TRAIN_IMAGES_DIR
+            self.data_dir = TRAIN_IMAGES_DIR_640
         elif self.mode == 'test':
             self.data_dir = TEST_IMAGES_DIR
         else:
             raise Exception("Invalid mode: " + str(self.mode))
 
+        self.mask_data_dir = TRAIN_MASK_DIR_640
         self.transform = transform
 
     def __len__(self):
@@ -41,7 +42,7 @@ class DatasetRetriever(Dataset):
         img_id, rle = self.img_id[item], self.rles[item]
 
         #adding stained images
-        stain_prob=0.3
+        stain_prob=-1
         if random.random()<stain_prob and self.mode=='train':
             img_name = os.path.join(STAINED_IMAGES_DIR, str(img_id) + '.tiff')
         else:
@@ -49,8 +50,11 @@ class DatasetRetriever(Dataset):
 
         image = cv2.cvtColor(cv2.imread(img_name), cv2.COLOR_BGR2RGB)
         
+        
+        mask_layer = cv2.imread(os.path.join(self.mask_data_dir, str(img_id)+ "_mask.tiff"))[:,:,0]
+        
         mask = np.zeros((max(self.class_id), image.shape[0], image.shape[1]))
-        mask[self.class_id[item]-1,:,:]  = rleToMask(rle,image.shape[0],image.shape[1])
+        mask[self.class_id[item]-1,:,:]  = mask_layer.reshape(mask_layer.shape[0], mask_layer.shape[1])
 
         target_ind = self.class_id[item]-1
 
@@ -78,15 +82,10 @@ def make_loader(
     
 
     transform = {'train': transforms.Compose([
-        SquarePad(),
         # FlipLR(0.3),
         # FlipTD(0.3),
         ToAlbuNumpy(),
-        AlbuRandomScale(0.5),
-        ToTensor(),
-        PadToSize(3000,0.5),
-        Rescale(input_shape),
-        ToAlbuNumpy(),
+        AlbuDownScale(0.15),
         AlbuAngleRotate(0.4),
         AlbuHSVShift(0.3),
         AlbuElastic(0.4),
@@ -97,8 +96,8 @@ def make_loader(
         
     ]),
         'valid': transforms.Compose([
-            SquarePad(),
-            Rescale(input_shape),
+            # SquarePad(),
+            # Rescale(input_shape),
             Rerange(),
             Normalize(mean=[0.485, 0.456, 0.406],
                       std=[0.229, 0.224, 0.225])
