@@ -44,7 +44,7 @@ class TrainHandler:
             result_list.append(result_dict)
             self.logger.log('----')
 
-        [self.logger.log("FOLD::" + str(i) + "Loss:: " + str(fold['best_val_loss'])) for i, fold in
+        [self.logger.log("FOLD::" + str(i) + "Loss:: " + str(fold['best_val_metric'])) for i, fold in
              enumerate(result_list)]
 
         self.logger.save_log()
@@ -59,7 +59,7 @@ class TrainHandler:
             'epoch': [],
             'train_loss': [],
             'val_loss': [],
-            'best_val_loss': np.inf,
+            'best_val_metric': np.inf,
             'val_metric':[]
         }
 
@@ -164,14 +164,12 @@ class Trainer:
                     epoch,
                     result_dict
                 )
-                if result_dict['val_loss'][-1] < result_dict['best_val_loss']:
-                    self.logger.log("{} epoch, best epoch was updated! valid_loss: {: >4.5f}".format(epoch,
+                if result_dict['val_metric'][-1] < result_dict['best_val_metric']:
+                    self.logger.log("{} epoch, best epoch was updated! valid_metric: {: >4.5f}, valid_loss: {: >4.5f}".format(epoch,
                                                                                                      result_dict[
-                                                                                                         'val_loss'][
-                                                                                                         -1]))
-                    if self.config['metric']!=None:
-                        self.logger.log(self.config['metric'] + "_" + "valid_metric: {: >4.5f}".format(result_dict['val_metric'][-1]))
-                    result_dict["best_val_loss"] = result_dict['val_loss'][-1]
+                                                                                                         'val_metric'][
+                                                                                                         -1], result_dict['val_loss'][-1]))
+                    result_dict["best_val_metric"] = result_dict['val_metric'][-1]
                     torch.save(self.model.state_dict(), os.path.join(self.model_output_location, f"model{fold}.bin"))
                 self.model.train()
         result_dict['train_loss'].append(losses.avg)

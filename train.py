@@ -36,6 +36,8 @@ model = smp.Unet(
     classes=5,                      # model output channels (number of classes in your dataset)
 )
 
+#model.load_state_dict(torch.load(os.path.join( MODEL_OUTPUT_DIR ,"baseline+lrsched", "model0.bin")), strict=True)
+
 if torch.cuda.device_count() >= 1:
     print('Model pushed to {} GPU(s), type {}.'.format(
         torch.cuda.device_count(),
@@ -53,7 +55,7 @@ optimizer = torch.optim.Adam([
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [200, 250, 300, 350], gamma=0.6, last_epoch=- 1, verbose=False)
 elif config['scheduler'] == 'onecycle':
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr = 2e-3, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1, verbose=True)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr = 3e-3, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1, verbose=True)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 

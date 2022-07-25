@@ -28,9 +28,9 @@ model = smp.Unet(
     classes=5,                      # model output channels (number of classes in your dataset)
 )
 
-thresholds = [0.1, 0.05]
+thresholds = [0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "baseline+lrsched", "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"baseline+lovasz+dicemet", "model0.bin")), strict=True)
 model = model.cuda()
 model.eval()
 all_losses = None

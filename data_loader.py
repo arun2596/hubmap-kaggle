@@ -50,7 +50,6 @@ class DatasetRetriever(Dataset):
 
         image = cv2.cvtColor(cv2.imread(img_name), cv2.COLOR_BGR2RGB)
         
-        
         mask_layer = cv2.imread(os.path.join(self.mask_data_dir, str(img_id)+ "_mask.tiff"))[:,:,0]
         
         mask = np.zeros((max(self.class_id), image.shape[0], image.shape[1]))
