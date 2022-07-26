@@ -364,7 +364,7 @@ class ToTensor():
 from lovazs_loss import lovasz_hinge
 
 
-def DiceLoss(mask, mask_pred, target_ind, with_logits=False, smooth=1):
+def DiceLoss(mask, mask_pred, target_ind, with_logits=False, smooth=1, cutoff=None):
     #
     if with_logits:
         mask_pred = torch.sigmoid(mask_pred)    
@@ -372,6 +372,9 @@ def DiceLoss(mask, mask_pred, target_ind, with_logits=False, smooth=1):
     mask_pred = torch.gather(mask_pred,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
     mask = torch.gather(mask,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
     
+    if cutoff!=None:
+        mask_pred = torch.where(mask_pred>cutoff,1,0)
+
     #flatten
     mask = mask.view(mask.shape[0], -1)
     mask_pred = mask_pred.view(mask_pred.shape[0],-1)

@@ -28,9 +28,9 @@ model = smp.Unet(
     classes=5,                      # model output channels (number of classes in your dataset)
 )
 
-thresholds = [0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55]
+thresholds = [0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"baseline+lovasz+dicemet", "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "baseline+seed+lovasz", "model0.bin")), strict=True)
 model = model.cuda()
 model.eval()
 all_losses = None
@@ -61,6 +61,8 @@ for i in valid_loader:
 
     #plt.imshow(mask.numpy())
     
+    # 0.2,0.45,0.5,0.3,0.7
+
 
     # mask_pred = mask_pred.numpy()
 
@@ -84,15 +86,9 @@ print(np.mean(all_losses,axis=0))
 
 # enable grids
 
-# not all parts of the lungs h
-
-# What if object sizes are bigger - we have only handled smaller object sizes
-
-# use pixel size information to rescale images 
-# Send pad offset values in test data ..easier
-# Lovasz loss with relu->ELu+1
 #Simulate tissue thickness variations
 
-#LR Scheduler
 # Add TTA for pred
 # self teaching
+# Downscale images per organ -- train and valid 
+# select best score with dice+cutoff
