@@ -331,6 +331,17 @@ class AlbuDownScale(object):
         image = A.augmentations.transforms.Downscale (scale_min=0.2, scale_max=0.7, interpolation=0, always_apply=False, p=self.proba)(image=image)['image']
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
 
+class AlbuBrightnessContrast(object):
+
+    def __init__(self,proba):
+        self.proba=proba
+    
+    def __call__(self,sample):
+        image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
+        image = A.augmentations.transforms.RandomBrightnessContrast (brightness_limit=0.1, contrast_limit=0.1, brightness_by_max=True, always_apply=False, p=self.proba)(image=image)['image']
+        return {'image': image, 'mask': mask, 'target_ind': target_ind}
+
+
 
 class ToAlbuNumpy():
     def __init__(self):

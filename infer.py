@@ -22,7 +22,7 @@ train_loader, valid_loader = make_loader(df_train, 2, input_shape=640)
 
 
 model = smp.Unet(
-    encoder_name="resnet101",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
+    encoder_name="efficientnet-b6",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
     encoder_weights=None,     # use `imagenet` pre-trained weights for encoder initialization
     in_channels=3,                  # model input channels (1 for gray-scale images, 3 for RGB, etc.)
     classes=5,                      # model output channels (number of classes in your dataset)
@@ -30,7 +30,7 @@ model = smp.Unet(
 
 thresholds = [0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "baseline+seed+lovasz", "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "model0.bin")), strict=True)
 model = model.cuda()
 model.eval()
 all_losses = None
@@ -42,8 +42,10 @@ for i in valid_loader:
     mask = i['mask'].cuda()
     target_ind = i['target_ind'].cuda()
     image = i['image'].cuda() 
+    
     mask_pred = model.forward(image)
     mask_pred = torch.sigmoid(mask_pred)
+
     losses = getDiceLoss(mask,mask_pred,target_ind,thresholds)
     if all_losses is None:
         all_losses=np.array(losses)
@@ -61,7 +63,7 @@ for i in valid_loader:
 
     #plt.imshow(mask.numpy())
     
-    # 0.2,0.45,0.5,0.3,0.7
+    # 0.2,0.3,0.45,0.3,0.45
 
 
     # mask_pred = mask_pred.numpy()
@@ -85,10 +87,11 @@ print(np.mean(all_losses,axis=0))
 
 
 # enable grids
-
 #Simulate tissue thickness variations
 
 # Add TTA for pred
 # self teaching
+
 # Downscale images per organ -- train and valid 
-# select best score with dice+cutoff
+
+# add variable cutoff to dice selection during training  

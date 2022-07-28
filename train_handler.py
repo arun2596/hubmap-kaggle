@@ -204,7 +204,7 @@ class Evaluator:
                 if self.config['metric']!=None:
                     if self.config['metric']=='dice':
                         mask_pred_sigmoid = torch.sigmoid(mask_pred)
-                        metric = DiceLoss(mask, mask_pred_sigmoid, target_ind,cutoff=0.5)
+                        metric = DiceLoss(mask, mask_pred_sigmoid, target_ind,cutoff=0.4)
                     metrics.update(metric.item(), target_ind.size(0))
 
 
