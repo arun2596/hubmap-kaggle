@@ -323,12 +323,34 @@ class AlbuCoarseDropout(object):
 
 class AlbuDownScale(object):
 
-    def __init__(self,proba):
+    def __init__(self,proba, input_shape=640, mode='train'):
         self.proba=proba
-    
+        self.input_shape = input_shape
+        self.mode=mode
     def __call__(self,sample):
         image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
-        image = A.augmentations.transforms.Downscale (scale_min=0.2, scale_max=0.7, interpolation=0, always_apply=False, p=self.proba)(image=image)['image']
+        scale_min=0.2
+        scale_max=0.7
+
+        if self.mode=='valid':
+            test_px = {
+                    0:6.263,
+                    1:0.4945,
+                    2:0.7562,
+                    3:0.5,
+                    4:0.229,
+                }
+            if isinstance(self.input_shape, int):
+                pass
+            else:
+                input_shape = self.input_shape[0]
+            scale = (3000*0.4)/(test_px[int(target_ind)]*input_shape)
+            if scale>=1:
+                scale=1
+            scale_min = scale_max = scale
+            
+        if scale_min!=1:
+            image = A.augmentations.transforms.Downscale (scale_min=scale_min, scale_max=scale_max, interpolation=0, always_apply=False, p=self.proba)(image=image)['image']
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
 
 class AlbuBrightnessContrast(object):

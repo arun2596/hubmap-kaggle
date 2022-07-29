@@ -42,14 +42,18 @@ class DatasetRetriever(Dataset):
         img_id, rle = self.img_id[item], self.rles[item]
 
         #adding stained images
-        stain_prob=-1
+        stain_prob=0.15
+        stain_flag=False
         if random.random()<stain_prob and self.mode=='train':
+            stain_flag=True
             img_name = os.path.join(STAINED_IMAGES_DIR, str(img_id) + '.tiff')
         else:
             img_name = os.path.join(self.data_dir, str(img_id) + '.tiff')
 
         image = cv2.cvtColor(cv2.imread(img_name), cv2.COLOR_BGR2RGB)
-        
+        if stain_flag:
+            image= cv2.resize(image,(640,640))
+
         mask_layer = cv2.imread(os.path.join(self.mask_data_dir, str(img_id)+ "_mask.tiff"))[:,:,0]
         
         mask = np.zeros((max(self.class_id), image.shape[0], image.shape[1]))
@@ -74,7 +78,7 @@ class DatasetRetriever(Dataset):
 def make_loader(
         data,
         batch_size,
-        input_shape=(640, 640),
+        input_shape=640,
         fold=0,
 ):
     dataset = {'train': data[data['kfold'] != fold], 'valid': data[data['kfold'] == fold]}
@@ -97,7 +101,9 @@ def make_loader(
     ]),
         'valid': transforms.Compose([
             # SquarePad(),
-            # Rescale(input_shape),
+            ToAlbuNumpy(),
+            AlbuDownScale(1,input_shape=input_shape,mode='valid'),
+            ToTensor(),
             Rerange(),
             Normalize(mean=[0.485, 0.456, 0.406],
                       std=[0.229, 0.224, 0.225])
