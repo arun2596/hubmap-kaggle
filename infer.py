@@ -22,7 +22,7 @@ train_loader, valid_loader = make_loader(df_train, 2, input_shape=640)
 
 
 model = smp.Unet(
-    encoder_name="efficientnet-b6",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
+    encoder_name="efficientnet-b7",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
     encoder_weights=None,     # use `imagenet` pre-trained weights for encoder initialization
     in_channels=3,                  # model input channels (1 for gray-scale images, 3 for RGB, etc.)
     classes=5,                      # model output channels (number of classes in your dataset)
