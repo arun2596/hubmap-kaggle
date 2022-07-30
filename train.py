@@ -16,7 +16,7 @@ df_train['kfold'] = 1
 df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
 config = {
-'batch_size': 4,
+'batch_size': 2,
 'evaluate_interval': 1,
 'epochs': 200,
 'num_folds': 1,
@@ -29,8 +29,8 @@ train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,64
 
 
 
-model = smp.Unet(
-    encoder_name="efficientnet-b7",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
+model = smp.UnetPlusPlus(
+    encoder_name="efficientnet-b6",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
     encoder_weights="imagenet",     # use `imagenet` pre-trained weights for encoder initialization
     in_channels=3,                  # model input channels (1 for gray-scale images, 3 for RGB, etc.)
     classes=5,                      # model output channels (number of classes in your dataset)
