@@ -22,7 +22,7 @@ train_loader, valid_loader = make_loader(df_train, 2, input_shape=(640,640))
 
 
 model = smp.UnetPlusPlus(
-    encoder_name="efficientnet-b6",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
+    encoder_name="efficientnet-b7",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
     encoder_weights=None,     # use `imagenet` pre-trained weights for encoder initialization
     in_channels=3,                  # model input channels (1 for gray-scale images, 3 for RGB, etc.)
     classes=5,                      # model output channels (number of classes in your dataset)
@@ -97,3 +97,18 @@ print(np.mean(all_losses,axis=0))
 # Downscale images per organ -- train and valid 
 
 # add variable cutoff to dice selection during training  
+
+"""
+
+        #spleen :          (count>=0.20) and (count<0.30)
+        #lung :            (count>=0.20) and (count<0.30)
+        #largeintestine :  (count>=0   ) and (count<0.10)        
+        #prostate :        (count>=0.15) and (count<0.20)   
+
+
+e.g.
+    count_largeintestine = len(test_df[test_df.organ=='largeintestine'][test_df.data_source=='Hubmap'])
+    count = count_largeintestine/len(test_df)
+
+
+"""
