@@ -42,7 +42,7 @@ class DatasetRetriever(Dataset):
         img_id, rle = self.img_id[item], self.rles[item]
 
         #adding stained images
-        stain_prob=0.15
+        stain_prob=-1
         stain_flag=False
         if random.random()<stain_prob and self.mode=='train':
             stain_flag=True
@@ -119,7 +119,7 @@ def make_loader(
         batch_size=batch_size,
         sampler=train_sampler,
         pin_memory=True,
-        drop_last=False,
+        drop_last=True,
         num_workers=16
     )
 

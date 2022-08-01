@@ -9,6 +9,8 @@ from visualization import viz_img
 
 from train_handler import TrainHandler
 
+from segformer import segformersegmentation
+
 set_seed(123)
 
 df_train = pd.read_csv(TRAIN_CSV_FILE)
@@ -16,7 +18,7 @@ df_train['kfold'] = 1
 df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
 config = {
-'batch_size': 2,
+'batch_size': 6,
 'evaluate_interval': 1,
 'epochs': 200,
 'num_folds': 1,
@@ -28,13 +30,15 @@ config = {
 train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,640))
 
 
+model = segformersegmentation(mode="train")
 
-model = smp.UnetPlusPlus(
-    encoder_name="efficientnet-b7",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
-    encoder_weights="imagenet",     # use `imagenet` pre-trained weights for encoder initialization
-    in_channels=3,                  # model input channels (1 for gray-scale images, 3 for RGB, etc.)
-    classes=5,                      # model output channels (number of classes in your dataset)
-)
+
+# model = smp.UnetPlusPlus(
+#     encoder_name="efficientnet-b7",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
+#     encoder_weights="imagenet",     # use `imagenet` pre-trained weights for encoder initialization
+#     in_channels=3,                  # model input channels (1 for gray-scale images, 3 for RGB, etc.)
+#     classes=5,                      # model output channels (number of classes in your dataset)
+# )
 
 #model.load_state_dict(torch.load(os.path.join( MODEL_OUTPUT_DIR ,"baseline+lrsched", "model0.bin")), strict=True)
 
@@ -47,10 +51,15 @@ if torch.cuda.device_count() >= 1:
 else:
     raise ValueError('CPU training is not supported')
 
+# optimizer = torch.optim.Adam([
+#         {'params': model.decoder.parameters(), 'lr': 1e-3},
+#         {'params': model.encoder.parameters(), 'lr': 1e-3},
+#     ])
+
 optimizer = torch.optim.Adam([
-        {'params': model.decoder.parameters(), 'lr': 1e-3},
-        {'params': model.encoder.parameters(), 'lr': 1e-3},
+        {'params': model.parameters(), 'lr': 1e-3},
     ])
+
 
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [200, 250, 300, 350], gamma=0.6, last_epoch=- 1, verbose=False)
