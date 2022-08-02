@@ -294,7 +294,7 @@ class AlbuAngleRotate(object):
 
     def __call__(self, sample):
         image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
-        albu_out =  A.augmentations.geometric.rotate.Rotate (limit=180, interpolation=1, border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, crop_border=False, always_apply=False, p=self.proba)(image=image, mask= mask[target_ind,:,:])
+        albu_out =  A.augmentations.geometric.rotate.Rotate (limit=180, interpolation=1, crop_border=False, always_apply=False, p=self.proba)(image=image, mask= mask[target_ind,:,:])
         image, mask[target_ind,:,:] = albu_out['image'], albu_out['mask']
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
 
@@ -305,7 +305,7 @@ class AlbuElastic(object):
 
     def __call__(self, sample):
         image, mask, target_ind = sample['image'], sample['mask'], sample['target_ind']
-        albu_out =  A.augmentations.geometric.transforms.ElasticTransform (alpha=1, sigma=50, alpha_affine=50, interpolation=1, border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, always_apply=False, approximate=False, same_dxdy=False, p=self.proba)(image=image, mask= mask[target_ind,:,:])
+        albu_out =  A.augmentations.geometric.transforms.ElasticTransform (alpha=1, sigma=50, alpha_affine=50, interpolation=1,  always_apply=False, approximate=False, same_dxdy=False, p=self.proba)(image=image, mask= mask[target_ind,:,:])
         image, mask[target_ind,:,:] = albu_out['image'], albu_out['mask']
         return {'image': image, 'mask': mask, 'target_ind': target_ind}
 

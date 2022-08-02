@@ -91,7 +91,7 @@ def make_loader(
         AlbuHSVShift(0.3),
         AlbuBrightnessContrast(0.3),
         AlbuDownScale(0.15),
-        AlbuAngleRotate(0.4),
+        AlbuAngleRotate(0.6),
         AlbuElastic(0.4),
         ToTensor(),
         Rerange(),

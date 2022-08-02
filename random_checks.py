@@ -50,6 +50,8 @@ for i in train_loader:
     # cv2.imshow("original", (mask.numpy()*255).astype('uint8'))
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
+    print(sum( mask.numpy()))
+
     cv2.imshow("mask", mask.numpy().astype('uint8')*255)
     cv2.imshow("img",img.astype('uint8'))
 

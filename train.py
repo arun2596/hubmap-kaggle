@@ -20,7 +20,7 @@ df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 config = {
 'batch_size': 6,
 'evaluate_interval': 1,
-'epochs': 400,
+'epochs': 200,
 'num_folds': 1,
 'scheduler': 'onecycle',
 'loss': 'symmetric_lovasz',
