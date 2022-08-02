@@ -1,0 +1,405 @@
+Model pushed to 1 GPU(s), type NVIDIA GeForce RTX 3090.
+Adjusting learning rate of group 0 to 1.1000e-07.
+Training model
+----
+FOLD: 0
+Adjusting learning rate of group 0 to 1.2100e-07.
+epoch: 000 [  6/298 (  2%)], train_loss: 2.22001, dice_train_metric: 0.80297
+Adjusting learning rate of group 0 to 1.3310e-07.
+epoch: 000 [ 12/298 (  4%)], train_loss: 2.18864, dice_train_metric: 0.79198
+Adjusting learning rate of group 0 to 1.4641e-07.
+epoch: 000 [ 18/298 (  6%)], train_loss: 2.14825, dice_train_metric: 0.83692
+Adjusting learning rate of group 0 to 1.6105e-07.
+epoch: 000 [ 24/298 (  8%)], train_loss: 2.13732, dice_train_metric: 0.83353
+Adjusting learning rate of group 0 to 1.7716e-07.
+epoch: 000 [ 30/298 ( 10%)], train_loss: 2.11873, dice_train_metric: 0.82673
+Adjusting learning rate of group 0 to 1.9487e-07.
+epoch: 000 [ 36/298 ( 12%)], train_loss: 2.08745, dice_train_metric: 0.83249
+Adjusting learning rate of group 0 to 2.1436e-07.
+epoch: 000 [ 42/298 ( 14%)], train_loss: 2.14535, dice_train_metric: 0.83482
+Adjusting learning rate of group 0 to 2.3579e-07.
+epoch: 000 [ 48/298 ( 16%)], train_loss: 2.10940, dice_train_metric: 0.84042
+Adjusting learning rate of group 0 to 2.5937e-07.
+epoch: 000 [ 54/298 ( 18%)], train_loss: 2.20256, dice_train_metric: 0.84020
+Adjusting learning rate of group 0 to 2.8531e-07.
+epoch: 000 [ 60/298 ( 20%)], train_loss: 2.16190, dice_train_metric: 0.84762
+Adjusting learning rate of group 0 to 3.1384e-07.
+epoch: 000 [ 66/298 ( 22%)], train_loss: 2.09569, dice_train_metric: 0.84897
+Adjusting learning rate of group 0 to 3.4523e-07.
+epoch: 000 [ 72/298 ( 24%)], train_loss: 2.16409, dice_train_metric: 0.84301
+Adjusting learning rate of group 0 to 3.7975e-07.
+epoch: 000 [ 78/298 ( 26%)], train_loss: 2.17141, dice_train_metric: 0.83911
+Adjusting learning rate of group 0 to 4.1772e-07.
+epoch: 000 [ 84/298 ( 28%)], train_loss: 2.11722, dice_train_metric: 0.83974
+Adjusting learning rate of group 0 to 4.5950e-07.
+epoch: 000 [ 90/298 ( 30%)], train_loss: 2.14668, dice_train_metric: 0.83734
+Adjusting learning rate of group 0 to 5.0545e-07.
+epoch: 000 [ 96/298 ( 32%)], train_loss: 2.07726, dice_train_metric: 0.83940
+Adjusting learning rate of group 0 to 5.5599e-07.
+epoch: 000 [102/298 ( 34%)], train_loss: 2.14141, dice_train_metric: 0.83791
+Adjusting learning rate of group 0 to 6.1159e-07.
+epoch: 000 [108/298 ( 36%)], train_loss: 2.05588, dice_train_metric: 0.83828
+Adjusting learning rate of group 0 to 6.7275e-07.
+epoch: 000 [114/298 ( 38%)], train_loss: 2.08414, dice_train_metric: 0.84423
+Adjusting learning rate of group 0 to 7.4002e-07.
+epoch: 000 [120/298 ( 40%)], train_loss: 2.19043, dice_train_metric: 0.84124
+Adjusting learning rate of group 0 to 8.1403e-07.
+epoch: 000 [126/298 ( 42%)], train_loss: 2.21944, dice_train_metric: 0.83910
+Adjusting learning rate of group 0 to 8.9543e-07.
+epoch: 000 [132/298 ( 44%)], train_loss: 2.09154, dice_train_metric: 0.83896
+Adjusting learning rate of group 0 to 9.8497e-07.
+epoch: 000 [138/298 ( 46%)], train_loss: 2.18724, dice_train_metric: 0.84103
+Adjusting learning rate of group 0 to 1.0835e-06.
+epoch: 000 [144/298 ( 48%)], train_loss: 2.11860, dice_train_metric: 0.84256
+Adjusting learning rate of group 0 to 1.1918e-06.
+epoch: 000 [150/298 ( 50%)], train_loss: 2.17895, dice_train_metric: 0.84360
+Adjusting learning rate of group 0 to 1.3110e-06.
+epoch: 000 [156/298 ( 52%)], train_loss: 2.07113, dice_train_metric: 0.84451
+Adjusting learning rate of group 0 to 1.4421e-06.
+epoch: 000 [162/298 ( 54%)], train_loss: 2.21375, dice_train_metric: 0.84459
+Adjusting learning rate of group 0 to 1.5863e-06.
+epoch: 000 [168/298 ( 56%)], train_loss: 2.09125, dice_train_metric: 0.84517
+Adjusting learning rate of group 0 to 1.7449e-06.
+epoch: 000 [174/298 ( 58%)], train_loss: 2.14816, dice_train_metric: 0.84521
+Adjusting learning rate of group 0 to 1.9194e-06.
+epoch: 000 [180/298 ( 60%)], train_loss: 2.11486, dice_train_metric: 0.84434
+Adjusting learning rate of group 0 to 2.1114e-06.
+epoch: 000 [186/298 ( 62%)], train_loss: 2.08361, dice_train_metric: 0.84240
+Adjusting learning rate of group 0 to 2.3225e-06.
+epoch: 000 [192/298 ( 64%)], train_loss: 2.08841, dice_train_metric: 0.84380
+Adjusting learning rate of group 0 to 2.5548e-06.
+epoch: 000 [198/298 ( 66%)], train_loss: 2.11756, dice_train_metric: 0.84010
+Adjusting learning rate of group 0 to 2.8102e-06.
+epoch: 000 [204/298 ( 68%)], train_loss: 2.09996, dice_train_metric: 0.84107
+Adjusting learning rate of group 0 to 3.0913e-06.
+epoch: 000 [210/298 ( 70%)], train_loss: 2.14985, dice_train_metric: 0.84094
+Adjusting learning rate of group 0 to 3.4004e-06.
+epoch: 000 [216/298 ( 72%)], train_loss: 2.09793, dice_train_metric: 0.84169
+Adjusting learning rate of group 0 to 3.7404e-06.
+epoch: 000 [222/298 ( 74%)], train_loss: 2.13223, dice_train_metric: 0.84008
+Adjusting learning rate of group 0 to 4.1145e-06.
+epoch: 000 [228/298 ( 77%)], train_loss: 2.19301, dice_train_metric: 0.83914
+Adjusting learning rate of group 0 to 4.5259e-06.
+epoch: 000 [234/298 ( 79%)], train_loss: 2.07975, dice_train_metric: 0.84196
+Adjusting learning rate of group 0 to 4.9785e-06.
+epoch: 000 [240/298 ( 81%)], train_loss: 2.17289, dice_train_metric: 0.84078
+Adjusting learning rate of group 0 to 5.4764e-06.
+epoch: 000 [246/298 ( 83%)], train_loss: 2.19104, dice_train_metric: 0.83948
+Adjusting learning rate of group 0 to 6.0240e-06.
+epoch: 000 [252/298 ( 85%)], train_loss: 2.06734, dice_train_metric: 0.83986
+Adjusting learning rate of group 0 to 6.6264e-06.
+epoch: 000 [258/298 ( 87%)], train_loss: 2.09705, dice_train_metric: 0.84173
+Adjusting learning rate of group 0 to 7.2890e-06.
+epoch: 000 [264/298 ( 89%)], train_loss: 2.09924, dice_train_metric: 0.84192
+Adjusting learning rate of group 0 to 8.0180e-06.
+epoch: 000 [270/298 ( 91%)], train_loss: 2.08030, dice_train_metric: 0.84377
+Adjusting learning rate of group 0 to 8.8197e-06.
+epoch: 000 [276/298 ( 93%)], train_loss: 2.07621, dice_train_metric: 0.84477
+Adjusting learning rate of group 0 to 9.7017e-06.
+epoch: 000 [282/298 ( 95%)], train_loss: 2.13705, dice_train_metric: 0.84583
+Adjusting learning rate of group 0 to 1.0672e-05.
+epoch: 000 [288/298 ( 97%)], train_loss: 2.03567, dice_train_metric: 0.84740
+Adjusting learning rate of group 0 to 1.1739e-05.
+epoch: 000 [294/298 ( 99%)], train_loss: 2.09065, dice_train_metric: 0.84908
+0 epoch, best epoch was updated! valid_loss: 2.07496, valid_metric: 0.80556
+Adjusting learning rate of group 0 to 1.2913e-05.
+epoch: 001 [  6/298 (  2%)], train_loss: 2.08671, dice_train_metric: 0.72723
+Adjusting learning rate of group 0 to 1.4204e-05.
+epoch: 001 [ 12/298 (  4%)], train_loss: 2.07687, dice_train_metric: 0.81573
+Adjusting learning rate of group 0 to 1.5625e-05.
+epoch: 001 [ 18/298 (  6%)], train_loss: 2.11490, dice_train_metric: 0.83393
+Adjusting learning rate of group 0 to 1.7187e-05.
+epoch: 001 [ 24/298 (  8%)], train_loss: 2.13123, dice_train_metric: 0.84067
+Adjusting learning rate of group 0 to 1.8906e-05.
+epoch: 001 [ 30/298 ( 10%)], train_loss: 2.09029, dice_train_metric: 0.84489
+Adjusting learning rate of group 0 to 2.0797e-05.
+epoch: 001 [ 36/298 ( 12%)], train_loss: 2.09429, dice_train_metric: 0.85990
+Adjusting learning rate of group 0 to 2.2876e-05.
+epoch: 001 [ 42/298 ( 14%)], train_loss: 2.06588, dice_train_metric: 0.86027
+Adjusting learning rate of group 0 to 2.5164e-05.
+epoch: 001 [ 48/298 ( 16%)], train_loss: 2.12111, dice_train_metric: 0.86234
+Adjusting learning rate of group 0 to 2.7680e-05.
+epoch: 001 [ 54/298 ( 18%)], train_loss: 2.09136, dice_train_metric: 0.86173
+Adjusting learning rate of group 0 to 3.0448e-05.
+epoch: 001 [ 60/298 ( 20%)], train_loss: 2.09050, dice_train_metric: 0.86181
+Adjusting learning rate of group 0 to 3.3493e-05.
+epoch: 001 [ 66/298 ( 22%)], train_loss: 2.02562, dice_train_metric: 0.86117
+Adjusting learning rate of group 0 to 3.6842e-05.
+epoch: 001 [ 72/298 ( 24%)], train_loss: 2.00700, dice_train_metric: 0.86263
+Adjusting learning rate of group 0 to 4.0527e-05.
+epoch: 001 [ 78/298 ( 26%)], train_loss: 2.08405, dice_train_metric: 0.86253
+Adjusting learning rate of group 0 to 4.4579e-05.
+epoch: 001 [ 84/298 ( 28%)], train_loss: 2.02216, dice_train_metric: 0.85587
+Adjusting learning rate of group 0 to 4.9037e-05.
+epoch: 001 [ 90/298 ( 30%)], train_loss: 2.01186, dice_train_metric: 0.85512
+Adjusting learning rate of group 0 to 5.3941e-05.
+epoch: 001 [ 96/298 ( 32%)], train_loss: 2.02603, dice_train_metric: 0.85479
+Adjusting learning rate of group 0 to 5.9335e-05.
+epoch: 001 [102/298 ( 34%)], train_loss: 1.99530, dice_train_metric: 0.85605
+Adjusting learning rate of group 0 to 6.5268e-05.
+epoch: 001 [108/298 ( 36%)], train_loss: 2.07183, dice_train_metric: 0.85895
+Adjusting learning rate of group 0 to 7.1795e-05.
+epoch: 001 [114/298 ( 38%)], train_loss: 1.94258, dice_train_metric: 0.85986
+Adjusting learning rate of group 0 to 7.8975e-05.
+epoch: 001 [120/298 ( 40%)], train_loss: 1.96642, dice_train_metric: 0.85771
+Adjusting learning rate of group 0 to 8.6872e-05.
+epoch: 001 [126/298 ( 42%)], train_loss: 1.94659, dice_train_metric: 0.85642
+Adjusting learning rate of group 0 to 9.5559e-05.
+epoch: 001 [132/298 ( 44%)], train_loss: 1.98137, dice_train_metric: 0.85548
+Adjusting learning rate of group 0 to 1.0512e-04.
+epoch: 001 [138/298 ( 46%)], train_loss: 1.91269, dice_train_metric: 0.85398
+Adjusting learning rate of group 0 to 1.1563e-04.
+epoch: 001 [144/298 ( 48%)], train_loss: 1.96340, dice_train_metric: 0.85477
+Adjusting learning rate of group 0 to 1.2719e-04.
+epoch: 001 [150/298 ( 50%)], train_loss: 1.87709, dice_train_metric: 0.85600
+Adjusting learning rate of group 0 to 1.3991e-04.
+epoch: 001 [156/298 ( 52%)], train_loss: 1.95070, dice_train_metric: 0.85451
+Adjusting learning rate of group 0 to 1.5390e-04.
+epoch: 001 [162/298 ( 54%)], train_loss: 1.91098, dice_train_metric: 0.85461
+Adjusting learning rate of group 0 to 1.6929e-04.
+epoch: 001 [168/298 ( 56%)], train_loss: 1.91770, dice_train_metric: 0.85276
+Adjusting learning rate of group 0 to 1.8622e-04.
+epoch: 001 [174/298 ( 58%)], train_loss: 1.85657, dice_train_metric: 0.85015
+Adjusting learning rate of group 0 to 2.0484e-04.
+epoch: 001 [180/298 ( 60%)], train_loss: 1.93214, dice_train_metric: 0.85170
+Adjusting learning rate of group 0 to 2.2532e-04.
+epoch: 001 [186/298 ( 62%)], train_loss: 1.90122, dice_train_metric: 0.85035
+Adjusting learning rate of group 0 to 2.4786e-04.
+epoch: 001 [192/298 ( 64%)], train_loss: 1.84475, dice_train_metric: 0.84941
+Adjusting learning rate of group 0 to 2.7264e-04.
+epoch: 001 [198/298 ( 66%)], train_loss: 1.79060, dice_train_metric: 0.84820
+Adjusting learning rate of group 0 to 2.9991e-04.
+epoch: 001 [204/298 ( 68%)], train_loss: 1.78510, dice_train_metric: 0.84622
+Adjusting learning rate of group 0 to 3.2990e-04.
+epoch: 001 [210/298 ( 70%)], train_loss: 1.67948, dice_train_metric: 0.84600
+Adjusting learning rate of group 0 to 3.6289e-04.
+epoch: 001 [216/298 ( 72%)], train_loss: 1.71915, dice_train_metric: 0.84401
+Adjusting learning rate of group 0 to 3.9918e-04.
+epoch: 001 [222/298 ( 74%)], train_loss: 1.61488, dice_train_metric: 0.84254
+Adjusting learning rate of group 0 to 4.3909e-04.
+epoch: 001 [228/298 ( 77%)], train_loss: 1.66199, dice_train_metric: 0.83790
+Adjusting learning rate of group 0 to 4.8300e-04.
+epoch: 001 [234/298 ( 79%)], train_loss: 1.69744, dice_train_metric: 0.83806
+Adjusting learning rate of group 0 to 5.3130e-04.
+epoch: 001 [240/298 ( 81%)], train_loss: 1.52867, dice_train_metric: 0.83448
+Adjusting learning rate of group 0 to 5.8443e-04.
+epoch: 001 [246/298 ( 83%)], train_loss: 1.66963, dice_train_metric: 0.83375
+Adjusting learning rate of group 0 to 6.4288e-04.
+epoch: 001 [252/298 ( 85%)], train_loss: 1.61055, dice_train_metric: 0.83157
+Adjusting learning rate of group 0 to 7.0716e-04.
+epoch: 001 [258/298 ( 87%)], train_loss: 1.71480, dice_train_metric: 0.82927
+Adjusting learning rate of group 0 to 7.7788e-04.
+epoch: 001 [264/298 ( 89%)], train_loss: 1.67976, dice_train_metric: 0.82986
+Adjusting learning rate of group 0 to 8.5567e-04.
+epoch: 001 [270/298 ( 91%)], train_loss: 1.58995, dice_train_metric: 0.82722
+Adjusting learning rate of group 0 to 9.4123e-04.
+epoch: 001 [276/298 ( 93%)], train_loss: 1.64217, dice_train_metric: 0.82693
+Adjusting learning rate of group 0 to 1.0354e-03.
+epoch: 001 [282/298 ( 95%)], train_loss: 1.62296, dice_train_metric: 0.82579
+Adjusting learning rate of group 0 to 1.1389e-03.
+epoch: 001 [288/298 ( 97%)], train_loss: 1.69548, dice_train_metric: 0.82225
+Adjusting learning rate of group 0 to 1.2528e-03.
+epoch: 001 [294/298 ( 99%)], train_loss: 1.37383, dice_train_metric: 0.81922
+1 epoch, best epoch was updated! valid_loss: 1.42999, valid_metric: 0.43145
+Adjusting learning rate of group 0 to 1.3781e-03.
+epoch: 002 [  6/298 (  2%)], train_loss: 1.40729, dice_train_metric: 0.63411
+Adjusting learning rate of group 0 to 1.5159e-03.
+epoch: 002 [ 12/298 (  4%)], train_loss: 1.40598, dice_train_metric: 0.66624
+Adjusting learning rate of group 0 to 1.6675e-03.
+epoch: 002 [ 18/298 (  6%)], train_loss: 1.41911, dice_train_metric: 0.69960
+Adjusting learning rate of group 0 to 1.8342e-03.
+epoch: 002 [ 24/298 (  8%)], train_loss: 1.51531, dice_train_metric: 0.69787
+Adjusting learning rate of group 0 to 2.0176e-03.
+epoch: 002 [ 30/298 ( 10%)], train_loss: 1.25262, dice_train_metric: 0.68435
+Adjusting learning rate of group 0 to 2.2194e-03.
+epoch: 002 [ 36/298 ( 12%)], train_loss: 1.52185, dice_train_metric: 0.68235
+Adjusting learning rate of group 0 to 2.4413e-03.
+epoch: 002 [ 42/298 ( 14%)], train_loss: 1.72899, dice_train_metric: 0.69326
+Adjusting learning rate of group 0 to 2.6855e-03.
+epoch: 002 [ 48/298 ( 16%)], train_loss: 1.48738, dice_train_metric: 0.69073
+Adjusting learning rate of group 0 to 2.9540e-03.
+epoch: 002 [ 54/298 ( 18%)], train_loss: 1.30071, dice_train_metric: 0.68217
+Adjusting learning rate of group 0 to 3.2494e-03.
+epoch: 002 [ 60/298 ( 20%)], train_loss: 1.86109, dice_train_metric: 0.70204
+Adjusting learning rate of group 0 to 3.5743e-03.
+epoch: 002 [ 66/298 ( 22%)], train_loss: 1.88743, dice_train_metric: 0.71546
+Adjusting learning rate of group 0 to 3.9318e-03.
+epoch: 002 [ 72/298 ( 24%)], train_loss: 1.88590, dice_train_metric: 0.71720
+Adjusting learning rate of group 0 to 4.3249e-03.
+epoch: 002 [ 78/298 ( 26%)], train_loss: 2.17398, dice_train_metric: 0.71990
+Adjusting learning rate of group 0 to 4.7574e-03.
+epoch: 002 [ 84/298 ( 28%)], train_loss: 1.66272, dice_train_metric: 0.71822
+Adjusting learning rate of group 0 to 5.2332e-03.
+epoch: 002 [ 90/298 ( 30%)], train_loss: 2.24922, dice_train_metric: 0.72995
+Adjusting learning rate of group 0 to 5.7565e-03.
+epoch: 002 [ 96/298 ( 32%)], train_loss: 1.72654, dice_train_metric: 0.73601
+Adjusting learning rate of group 0 to 6.3322e-03.
+epoch: 002 [102/298 ( 34%)], train_loss: 1.83228, dice_train_metric: 0.74327
+Adjusting learning rate of group 0 to 6.9654e-03.
+epoch: 002 [108/298 ( 36%)], train_loss: 1.96243, dice_train_metric: 0.75092
+Adjusting learning rate of group 0 to 7.6619e-03.
+epoch: 002 [114/298 ( 38%)], train_loss: 2.36139, dice_train_metric: 0.75956
+Adjusting learning rate of group 0 to 8.4281e-03.
+epoch: 002 [120/298 ( 40%)], train_loss: 2.26132, dice_train_metric: 0.76513
+Adjusting learning rate of group 0 to 9.2709e-03.
+epoch: 002 [126/298 ( 42%)], train_loss: 2.14738, dice_train_metric: 0.77075
+Adjusting learning rate of group 0 to 1.0198e-02.
+epoch: 002 [132/298 ( 44%)], train_loss: 2.05943, dice_train_metric: 0.77816
+Adjusting learning rate of group 0 to 1.1218e-02.
+epoch: 002 [138/298 ( 46%)], train_loss: 1.99281, dice_train_metric: 0.77919
+Adjusting learning rate of group 0 to 1.2340e-02.
+epoch: 002 [144/298 ( 48%)], train_loss: 2.13075, dice_train_metric: 0.78553
+Adjusting learning rate of group 0 to 1.3574e-02.
+epoch: 002 [150/298 ( 50%)], train_loss: 1.95155, dice_train_metric: 0.79024
+Adjusting learning rate of group 0 to 1.4931e-02.
+epoch: 002 [156/298 ( 52%)], train_loss: 2.21224, dice_train_metric: 0.79164
+Adjusting learning rate of group 0 to 1.6424e-02.
+epoch: 002 [162/298 ( 54%)], train_loss: 2.02287, dice_train_metric: 0.79432
+Adjusting learning rate of group 0 to 1.8066e-02.
+epoch: 002 [168/298 ( 56%)], train_loss: 2.04321, dice_train_metric: 0.79601
+Adjusting learning rate of group 0 to 1.9873e-02.
+epoch: 002 [174/298 ( 58%)], train_loss: 2.50642, dice_train_metric: 0.79875
+Adjusting learning rate of group 0 to 2.1860e-02.
+epoch: 002 [180/298 ( 60%)], train_loss: 2.27053, dice_train_metric: 0.80369
+Adjusting learning rate of group 0 to 2.4046e-02.
+epoch: 002 [186/298 ( 62%)], train_loss: 2.16701, dice_train_metric: 0.80607
+Adjusting learning rate of group 0 to 2.6451e-02.
+epoch: 002 [192/298 ( 64%)], train_loss: 2.45518, dice_train_metric: 0.80910
+Adjusting learning rate of group 0 to 2.9096e-02.
+epoch: 002 [198/298 ( 66%)], train_loss: 2.43875, dice_train_metric: 0.81051
+Adjusting learning rate of group 0 to 3.2006e-02.
+epoch: 002 [204/298 ( 68%)], train_loss: 2.10439, dice_train_metric: 0.81100
+Adjusting learning rate of group 0 to 3.5206e-02.
+epoch: 002 [210/298 ( 70%)], train_loss: 2.35403, dice_train_metric: 0.81186
+Adjusting learning rate of group 0 to 3.8727e-02.
+epoch: 002 [216/298 ( 72%)], train_loss: 2.31635, dice_train_metric: 0.81035
+Adjusting learning rate of group 0 to 4.2600e-02.
+epoch: 002 [222/298 ( 74%)], train_loss: 2.97598, dice_train_metric: 0.81314
+Adjusting learning rate of group 0 to 4.6860e-02.
+epoch: 002 [228/298 ( 77%)], train_loss: 2.46190, dice_train_metric: 0.81612
+Adjusting learning rate of group 0 to 5.1545e-02.
+epoch: 002 [234/298 ( 79%)], train_loss: 4.18437, dice_train_metric: 0.81919
+Adjusting learning rate of group 0 to 5.6700e-02.
+epoch: 002 [240/298 ( 81%)], train_loss: 2.42263, dice_train_metric: 0.82145
+Adjusting learning rate of group 0 to 6.2370e-02.
+epoch: 002 [246/298 ( 83%)], train_loss: 2.17177, dice_train_metric: 0.82158
+Adjusting learning rate of group 0 to 6.8607e-02.
+epoch: 002 [252/298 ( 85%)], train_loss: 2.83474, dice_train_metric: 0.82321
+Adjusting learning rate of group 0 to 7.5468e-02.
+epoch: 002 [258/298 ( 87%)], train_loss: 2.17689, dice_train_metric: 0.82303
+Adjusting learning rate of group 0 to 8.3015e-02.
+epoch: 002 [264/298 ( 89%)], train_loss: 2.33658, dice_train_metric: 0.82283
+Adjusting learning rate of group 0 to 9.1316e-02.
+epoch: 002 [270/298 ( 91%)], train_loss: 2.04042, dice_train_metric: 0.82342
+Adjusting learning rate of group 0 to 1.0045e-01.
+epoch: 002 [276/298 ( 93%)], train_loss: 2.01074, dice_train_metric: 0.82416
+Adjusting learning rate of group 0 to 1.1049e-01.
+epoch: 002 [282/298 ( 95%)], train_loss: 2.00481, dice_train_metric: 0.82317
+Adjusting learning rate of group 0 to 1.2154e-01.
+epoch: 002 [288/298 ( 97%)], train_loss: 2.05575, dice_train_metric: 0.82332
+Adjusting learning rate of group 0 to 1.3370e-01.
+epoch: 002 [294/298 ( 99%)], train_loss: 2.72341, dice_train_metric: 0.82409
+----Validation Results Summary----
+2 epoch, valid_loss: 3.27364, valid_metric: 0.99990
+Adjusting learning rate of group 0 to 1.4707e-01.
+epoch: 003 [  6/298 (  2%)], train_loss: 1.98284, dice_train_metric: 0.87897
+Adjusting learning rate of group 0 to 1.6177e-01.
+epoch: 003 [ 12/298 (  4%)], train_loss: 1.91292, dice_train_metric: 0.82963
+Adjusting learning rate of group 0 to 1.7795e-01.
+epoch: 003 [ 18/298 (  6%)], train_loss: 1.98156, dice_train_metric: 0.83818
+Adjusting learning rate of group 0 to 1.9574e-01.
+epoch: 003 [ 24/298 (  8%)], train_loss: 1.96618, dice_train_metric: 0.85117
+Adjusting learning rate of group 0 to 2.1532e-01.
+epoch: 003 [ 30/298 ( 10%)], train_loss: 2.07514, dice_train_metric: 0.85364
+Adjusting learning rate of group 0 to 2.3685e-01.
+epoch: 003 [ 36/298 ( 12%)], train_loss: 2.21324, dice_train_metric: 0.84282
+Adjusting learning rate of group 0 to 2.6054e-01.
+epoch: 003 [ 42/298 ( 14%)], train_loss: 1.97022, dice_train_metric: 0.85776
+Adjusting learning rate of group 0 to 2.8659e-01.
+epoch: 003 [ 48/298 ( 16%)], train_loss: 2.18462, dice_train_metric: 0.85102
+Adjusting learning rate of group 0 to 3.1525e-01.
+epoch: 003 [ 54/298 ( 18%)], train_loss: 2.72924, dice_train_metric: 0.86274
+Adjusting learning rate of group 0 to 3.4677e-01.
+epoch: 003 [ 60/298 ( 20%)], train_loss: 2.09209, dice_train_metric: 0.86113
+Adjusting learning rate of group 0 to 3.8145e-01.
+epoch: 003 [ 66/298 ( 22%)], train_loss: 2.17977, dice_train_metric: 0.86003
+Adjusting learning rate of group 0 to 4.1959e-01.
+epoch: 003 [ 72/298 ( 24%)], train_loss: 2.54943, dice_train_metric: 0.86352
+Adjusting learning rate of group 0 to 4.6155e-01.
+epoch: 003 [ 78/298 ( 26%)], train_loss: 2.25027, dice_train_metric: 0.86531
+Adjusting learning rate of group 0 to 5.0771e-01.
+epoch: 003 [ 84/298 ( 28%)], train_loss: 4.66920, dice_train_metric: 0.86129
+Adjusting learning rate of group 0 to 5.5848e-01.
+epoch: 003 [ 90/298 ( 30%)], train_loss: 2.64872, dice_train_metric: 0.86672
+Adjusting learning rate of group 0 to 6.1433e-01.
+epoch: 003 [ 96/298 ( 32%)], train_loss: 2.95006, dice_train_metric: 0.86735
+Adjusting learning rate of group 0 to 6.7576e-01.
+epoch: 003 [102/298 ( 34%)], train_loss: 2.86437, dice_train_metric: 0.86390
+Adjusting learning rate of group 0 to 7.4334e-01.
+epoch: 003 [108/298 ( 36%)], train_loss: 4.59312, dice_train_metric: 0.86716
+Adjusting learning rate of group 0 to 8.1767e-01.
+epoch: 003 [114/298 ( 38%)], train_loss: 6.94421, dice_train_metric: 0.86902
+Adjusting learning rate of group 0 to 8.9944e-01.
+epoch: 003 [120/298 ( 40%)], train_loss: 12.87836, dice_train_metric: 0.86398
+Adjusting learning rate of group 0 to 9.8938e-01.
+epoch: 003 [126/298 ( 42%)], train_loss: 10.69543, dice_train_metric: 0.87024
+Adjusting learning rate of group 0 to 1.0883e+00.
+epoch: 003 [132/298 ( 44%)], train_loss: 30.07625, dice_train_metric: 0.86714
+Adjusting learning rate of group 0 to 1.1972e+00.
+epoch: 003 [138/298 ( 46%)], train_loss: 10.27206, dice_train_metric: 0.87283
+Adjusting learning rate of group 0 to 1.3169e+00.
+epoch: 003 [144/298 ( 48%)], train_loss: 13.32339, dice_train_metric: 0.87444
+Adjusting learning rate of group 0 to 1.4486e+00.
+epoch: 003 [150/298 ( 50%)], train_loss: 4.08677, dice_train_metric: 0.87718
+Adjusting learning rate of group 0 to 1.5934e+00.
+epoch: 003 [156/298 ( 52%)], train_loss: 8.66948, dice_train_metric: 0.87627
+Adjusting learning rate of group 0 to 1.7527e+00.
+epoch: 003 [162/298 ( 54%)], train_loss: 14.70155, dice_train_metric: 0.87682
+Adjusting learning rate of group 0 to 1.9280e+00.
+epoch: 003 [168/298 ( 56%)], train_loss: 27.12454, dice_train_metric: 0.87962
+Adjusting learning rate of group 0 to 2.1208e+00.
+epoch: 003 [174/298 ( 58%)], train_loss: 235.60574, dice_train_metric: 0.88249
+Adjusting learning rate of group 0 to 2.3329e+00.
+epoch: 003 [180/298 ( 60%)], train_loss: 82.15828, dice_train_metric: 0.88394
+Adjusting learning rate of group 0 to 2.5662e+00.
+epoch: 003 [186/298 ( 62%)], train_loss: 85.32468, dice_train_metric: 0.88307
+Adjusting learning rate of group 0 to 2.8228e+00.
+epoch: 003 [192/298 ( 64%)], train_loss: 168.82799, dice_train_metric: 0.88057
+Adjusting learning rate of group 0 to 3.1051e+00.
+epoch: 003 [198/298 ( 66%)], train_loss: 61.09832, dice_train_metric: 0.88276
+Adjusting learning rate of group 0 to 3.4156e+00.
+epoch: 003 [204/298 ( 68%)], train_loss: 179.02542, dice_train_metric: 0.88465
+Adjusting learning rate of group 0 to 3.7572e+00.
+epoch: 003 [210/298 ( 70%)], train_loss: 269.55289, dice_train_metric: 0.88748
+Adjusting learning rate of group 0 to 4.1329e+00.
+epoch: 003 [216/298 ( 72%)], train_loss: 1807.12280, dice_train_metric: 0.88975
+Adjusting learning rate of group 0 to 4.5462e+00.
+epoch: 003 [222/298 ( 74%)], train_loss: 202.11743, dice_train_metric: 0.88921
+Adjusting learning rate of group 0 to 5.0008e+00.
+epoch: 003 [228/298 ( 77%)], train_loss: 311.90161, dice_train_metric: 0.89026
+Adjusting learning rate of group 0 to 5.5009e+00.
+epoch: 003 [234/298 ( 79%)], train_loss: 687.54321, dice_train_metric: 0.88858
+Adjusting learning rate of group 0 to 6.0510e+00.
+epoch: 003 [240/298 ( 81%)], train_loss: 1215.77051, dice_train_metric: 0.88854
+Adjusting learning rate of group 0 to 6.6561e+00.
+epoch: 003 [246/298 ( 83%)], train_loss: 789.09766, dice_train_metric: 0.88923
+Adjusting learning rate of group 0 to 7.3217e+00.
+epoch: 003 [252/298 ( 85%)], train_loss: 1248.30518, dice_train_metric: 0.88777
+Adjusting learning rate of group 0 to 8.0538e+00.
+epoch: 003 [258/298 ( 87%)], train_loss: 1819.12073, dice_train_metric: 0.88940
+Adjusting learning rate of group 0 to 8.8592e+00.
+epoch: 003 [264/298 ( 89%)], train_loss: 2742.38818, dice_train_metric: 0.88993
+Adjusting learning rate of group 0 to 9.7451e+00.
+epoch: 003 [270/298 ( 91%)], train_loss: 4461.31836, dice_train_metric: 0.88994
+Adjusting learning rate of group 0 to 1.0720e+01.
+epoch: 003 [276/298 ( 93%)], train_loss: 2752.82446, dice_train_metric: 0.89074
+Adjusting learning rate of group 0 to 1.1792e+01.
+epoch: 003 [282/298 ( 95%)], train_loss: 1114.47925, dice_train_metric: 0.89062
+Adjusting learning rate of group 0 to 1.2971e+01.
+epoch: 003 [288/298 ( 97%)], train_loss: 1427.50220, dice_train_metric: 0.89128
+Adjusting learning rate of group 0 to 1.4268e+01.
+epoch: 003 [294/298 ( 99%)], train_loss: 7651.54980, dice_train_metric: 0.89165
+----Validation Results Summary----
+3 epoch, valid_loss: 1137821.81368, valid_metric: 0.99990
+----
+FOLD::0Loss:: 0.4314462733718584

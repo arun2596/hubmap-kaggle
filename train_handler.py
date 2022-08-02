@@ -21,7 +21,7 @@ class TrainHandler:
         self.folder_name = MODEL_OUTPUT_DIR
 
         self.logger = Logger(os.path.join(MODEL_OUTPUT_DIR, 'log.txt'))
-
+        self.log_interval = config['log_interval']
     def run(self):
 
         result_list = []
@@ -66,6 +66,7 @@ class TrainHandler:
 
         trainer = Trainer(model, optimizer, scheduler, model_output_location=model_ouput_location, logger=self.logger,
                           evaluate_interval_fraction=evaluate_interval_fraction,
+                          log_interval=self.log_interval,
                           config=self.config)
 
         
@@ -142,7 +143,7 @@ class Trainer:
 
             self.scheduler.step()
 
-            if batch_idx % self.log_interval == 0:
+            if (batch_idx+1) % self.log_interval == 0 :
                 _s = str(len(str(len(train_loader.sampler))))
 
                 ret = [
@@ -165,12 +166,18 @@ class Trainer:
                     result_dict
                 )
                 if result_dict['val_metric'][-1] < result_dict['best_val_metric']:
-                    self.logger.log("{} epoch, best epoch was updated! valid_metric: {: >4.5f}, valid_loss: {: >4.5f}".format(epoch,
+                    self.logger.log("{} epoch, best epoch was updated! valid_loss: {: >4.5f}, valid_metric: {: >4.5f}".format(epoch,
                                                                                                      result_dict[
-                                                                                                         'val_metric'][
-                                                                                                         -1], result_dict['val_loss'][-1]))
+                                                                                                         'val_loss'][
+                                                                                                         -1], result_dict['val_metric'][-1]))
                     result_dict["best_val_metric"] = result_dict['val_metric'][-1]
                     torch.save(self.model.state_dict(), os.path.join(self.model_output_location, f"model{fold}.bin"))
+                else:
+                    self.logger.log('----Validation Results Summary----')
+                    self.logger.log("{} epoch, valid_loss: {: >4.5f}, valid_metric: {: >4.5f}".format(epoch,
+                                                                                                     result_dict[
+                                                                                                         'val_loss'][
+                                                                                                         -1], result_dict['val_metric'][-1]))
                 self.model.train()
         result_dict['train_loss'].append(losses.avg)
         
@@ -209,13 +216,13 @@ class Evaluator:
 
 
 
-        print('----Validation Results Summary----')
-        print('Epoch: [{}] valid_loss: {: >4.5f}'.format(epoch, losses.avg))
+        # print('----Validation Results Summary----')
+        # print('Epoch: [{}] valid_loss: {: >4.5f}'.format(epoch, losses.avg))
 
         result_dict['val_loss'].append(losses.avg)
         if self.config['metric']!=None:
             result_dict['val_metric'].append(metrics.avg)
-            print('Epoch: [{}] valid_metric: {: >4.5f}'.format(epoch, metrics.avg))
+            # print('Epoch: [{}] valid_metric: {: >4.5f}'.format(epoch, metrics.avg))
 
 
         return result_dict

@@ -24,11 +24,12 @@ config = {
 'num_folds': 1,
 'scheduler': 'onecycle',
 'loss': 'symmetric_lovasz',
-'metric': 'dice'
+'metric': 'dice',
 }
 
 train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,640))
 
+config['log_interval'] = len(train_loader)
 
 model = segformersegmentation(mode="train")
 
@@ -57,14 +58,14 @@ else:
 #     ])
 
 optimizer = torch.optim.Adam([
-        {'params': model.parameters(), 'lr': 1e-3},
+        {'params': model.parameters(), 'lr': 1e-7},
     ])
 
 
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [200, 250, 300, 350], gamma=0.6, last_epoch=- 1, verbose=False)
 elif config['scheduler'] == 'onecycle':
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr = 2e-3, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1, verbose=True)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr = 2e-3, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', div_factor=10, final_div_factor=200 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 
