@@ -31,7 +31,7 @@ model = segformersegmentation(mode="train")
 
 thresholds = [0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "mit-b2-baseline","model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "mit-b2-rangetest", "model0.bin")), strict=True)
 model = model.cuda()
 model.eval()
 all_losses = None
@@ -89,27 +89,21 @@ print(np.mean(all_losses,axis=0))
 
 # enable grids
 
+# ANALyze output logs
+
 #Simulate tissue thickness variations
 #Simulate die change variations
 
 # Add TTA for pred
 # self teaching
 
-# Downscale images per organ -- train and valid 
-
 # add variable cutoff to dice selection during training  
 
 """
-
-        #spleen :          (count>=0.20) and (count<0.30)
-        #lung :            (count>=0.20) and (count<0.30)
-        #largeintestine :  (count>=0   ) and (count<0.10)        
-        #prostate :        (count>=0.15) and (count<0.20)   
-
-
-e.g.
-    count_largeintestine = len(test_df[test_df.organ=='largeintestine'][test_df.data_source=='Hubmap'])
-    count = count_largeintestine/len(test_df)
-
-
+        #kidney :          (count>=0.17) and (count<0.18) - 0
+        #spleen :          (count>=0.24) and (count<0.26) - 1
+        #lung :            (count>=0.24) and (count<0.26) - 2
+        #prostat :         (count>0.20)  and (count<0.22) - 3
+        #largeintestine :  (count>=0.09) and (count<0.10) - 4 
+        
 """
