@@ -42,7 +42,7 @@ class DatasetRetriever(Dataset):
         img_id, rle = self.img_id[item], self.rles[item]
 
         #adding stained images
-        stain_prob=-1
+        stain_prob=0.2
         stain_flag=False
         if random.random()<stain_prob and self.mode=='train':
             stain_flag=True
@@ -88,7 +88,7 @@ def make_loader(
         # FlipLR(0.3),
         # FlipTD(0.3),
         ToAlbuNumpy(),
-        AlbuHSVShift(0.5),
+        AlbuHSVShift(0.3),
         AlbuBrightnessContrast(0.3),
         AlbuDownScale(0.15),
         AlbuAngleRotate(0.6),
