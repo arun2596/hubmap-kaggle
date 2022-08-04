@@ -29,9 +29,9 @@ model = segformersegmentation(mode="train")
 #     classes=5,                      # model output channels (number of classes in your dataset)
 # )
 
-thresholds = [0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
+thresholds = [0.02,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,  "model0.bin")), strict=True)
 model = model.cuda()
 model.eval()
 all_losses = None
@@ -91,11 +91,16 @@ print(np.mean(all_losses,axis=0))
 
 # ANALyze output logs
 
+# weighted data sampler?
+
+
 #Simulate tissue thickness variations
 #Simulate die change variations
 
 # Add TTA for pred
 # self teaching
+
+#enable folds
 
 # add variable cutoff to dice selection during training  
 
