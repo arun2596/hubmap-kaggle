@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 # plt.show()
 
 
-file1 = open('model/output/mit-b2-onecycleaug/log.txt', 'r')
+file1 = open('model/output/log.txt', 'r')
 Lines = file1.readlines()
 
 lr = []
