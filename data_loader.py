@@ -42,7 +42,7 @@ class DatasetRetriever(Dataset):
         img_id, rle = self.img_id[item], self.rles[item]
 
         #adding stained images
-        stain_prob=0.2
+        stain_prob=0.4
         stain_flag=False
         if random.random()<stain_prob and self.mode=='train':
             stain_flag=True
