@@ -37,7 +37,7 @@ class segformersegmentationmitb3(torch.nn.Module):
                 config = SegformerConfig(**config_dict)
                 self.segpretrained = SegformerForSemanticSegmentation(config)
         else:
-            self.segpretrained = SegformerForSemanticSegmentation.from_pretrained("nvidia/mit-b3")
+            self.segpretrained = SegformerForSemanticSegmentation.from_pretrained("nvidia/segformer-b3-finetuned-ade-512-512")
             self.upsample=torch.nn.Upsample(size=self.size, mode='bilinear', align_corners=False)
         self.segpretrained.decode_head.classifier= torch.nn.Conv2d(768, 5, kernel_size=(1, 1), stride=(1, 1))
  
