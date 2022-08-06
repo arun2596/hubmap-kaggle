@@ -9,7 +9,7 @@ from visualization import viz_img
 
 from train_handler import TrainHandler
 
-from segformer import segformersegmentation
+from segformer import segformersegmentation, segformersegmentationmitb3
 
 set_seed(123)
 
@@ -18,7 +18,7 @@ df_train['kfold'] = 1
 df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
 config = {
-'batch_size': 6,
+'batch_size': 4,
 'evaluate_interval': 1,
 'epochs': 400,
 'num_folds': 1,
@@ -31,7 +31,7 @@ train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,64
 
 config['log_interval'] = len(train_loader)
 
-model = segformersegmentation(mode="train")
+model = segformersegmentationmitb3(mode="train")
 
 
 # model = smp.UnetPlusPlus(
@@ -65,7 +65,7 @@ optimizer = torch.optim.Adam([
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [200, 250, 300, 350], gamma=0.6, last_epoch=- 1, verbose=False)
 elif config['scheduler'] == 'onecycle':
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr = 7e-5, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', div_factor=10, final_div_factor=20 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr = 1e-4, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', div_factor=10, final_div_factor=20 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 

@@ -9,7 +9,7 @@ from infer_utils import getDiceLoss
 
 from visualization import viz_img
 
-from segformer import segformersegmentation
+from segformer import segformersegmentation, segformersegmentationmitb3
 
 
 set_seed(123)
@@ -20,7 +20,7 @@ df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
 train_loader, valid_loader = make_loader(df_train, 2, input_shape=(640,640))
 
-model = segformersegmentation(mode="train")
+model = segformersegmentationmitb3(mode="train")
 
 # model = smp.UnetPlusPlus(
 #     encoder_name="efficientnet-b7",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
@@ -29,7 +29,7 @@ model = segformersegmentation(mode="train")
 #     classes=5,                      # model output channels (number of classes in your dataset)
 # )
 
-thresholds = [0.04,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
+thresholds = [0.005,0.01, 0.02, 0.04,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
 model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,  "model0.bin")), strict=True)
 model = model.cuda()
@@ -64,7 +64,7 @@ for i in valid_loader:
 
     #plt.imshow(mask.numpy())
     
-    # 0.2,0.3,0.45,0.3,0.45
+    # 0.45, 0.02, 0.45, 0.55, 0.55
 
 
     # mask_pred = mask_pred.numpy()
