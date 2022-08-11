@@ -31,11 +31,14 @@ model = segformersegmentationmitb3(mode="train")
 
 thresholds = [0.005,0.01, 0.02, 0.04,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,  "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"seg-b3-baseline", "model0.bin")), strict=True)
 model = model.cuda()
 model.eval()
 all_losses = None
 target_ls = []
+
+tta= True
+
 for i in valid_loader:
     #img = i['image'][0,:,:,:].view(3,640,640).permute((1, 2, 0)).numpy()
   
@@ -46,7 +49,14 @@ for i in valid_loader:
     
     mask_pred = model.forward(image)
     mask_pred = torch.sigmoid(mask_pred)
-
+    
+    if tta:
+        for ang in range(1,4):
+            mask_pred_t = model.forward(torch.rot90(image,ang,(-1,-2)))
+            mask_pred_t = torch.rot90(mask_pred_t,-ang,(-1,-2))
+            mask_pred_t = torch.sigmoid(mask_pred_t)
+            mask_pred = mask_pred_t + mask_pred
+        mask_pred=mask_pred/4
     losses = getDiceLoss(mask,mask_pred,target_ind,thresholds)
     if all_losses is None:
         all_losses=np.array(losses)
@@ -64,7 +74,7 @@ for i in valid_loader:
 
     #plt.imshow(mask.numpy())
     
-    # 0.45, 0.02, 0.45, 0.55, 0.55
+    # 0.45, 0.1, 0.45, 0.4, 0.3
 
 
     # mask_pred = mask_pred.numpy()
