@@ -26,13 +26,13 @@ class DatasetRetriever(Dataset):
         self.mode = mode
 
         if self.mode == 'train' or self.mode == 'valid':
-            self.data_dir = TRAIN_IMAGES_DIR_640
+            self.data_dir = TRAIN_IMAGES_DIR_768
         elif self.mode == 'test':
             self.data_dir = TEST_IMAGES_DIR
         else:
             raise Exception("Invalid mode: " + str(self.mode))
 
-        self.mask_data_dir = TRAIN_MASK_DIR_640
+        self.mask_data_dir = TRAIN_MASK_DIR_768
         self.transform = transform
 
     def __len__(self):
@@ -42,7 +42,7 @@ class DatasetRetriever(Dataset):
         img_id, rle = self.img_id[item], self.rles[item]
 
         #adding stained images
-        stain_prob=0.3
+        stain_prob=0.20
         stain_flag=False
         if random.random()<stain_prob and self.mode=='train':
             stain_flag=True
@@ -52,7 +52,7 @@ class DatasetRetriever(Dataset):
 
         image = cv2.cvtColor(cv2.imread(img_name), cv2.COLOR_BGR2RGB)
         if stain_flag:
-            image= cv2.resize(image,(640,640))
+            image= cv2.resize(image,(768,768))
 
         mask_layer = cv2.imread(os.path.join(self.mask_data_dir, str(img_id)+ "_mask.tiff"))[:,:,0]
         
@@ -78,7 +78,7 @@ class DatasetRetriever(Dataset):
 def make_loader(
         data,
         batch_size,
-        input_shape=640,
+        input_shape=768,
         fold=0,
 ):
     dataset = {'train': data[data['kfold'] != fold], 'valid': data[data['kfold'] == fold]}
@@ -90,7 +90,7 @@ def make_loader(
         ToAlbuNumpy(),
         AlbuHSVShift(0.3),
         AlbuBrightnessContrast(0.3),
-        AlbuDownScale(0.15),
+        AlbuDownScale(0.15, input_shape=input_shape),
         AlbuAngleRotate(0.6),
         AlbuElastic(0.4),
         AlbuCoarseDropout(0.2),
@@ -103,7 +103,7 @@ def make_loader(
         'valid': transforms.Compose([
             # SquarePad(),
             ToAlbuNumpy(),
-            AlbuDownScale(1,input_shape=input_shape,mode='valid'),
+            AlbuDownScale(1, input_shape=input_shape,mode='valid'),
             ToTensor(),
             Rerange(),
             Normalize(mean=[0.485, 0.456, 0.406],

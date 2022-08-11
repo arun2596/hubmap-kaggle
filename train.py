@@ -27,11 +27,11 @@ config = {
 'metric': 'dice',
 }
 
-train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,640))
+train_loader, valid_loader = make_loader(df_train, config['batch_size'], (768,768))
 
 config['log_interval'] = len(train_loader)
 
-model = segformersegmentationmitb3(mode="train")
+model = segformersegmentation(mode="train", size=768)
 
 
 # model = smp.UnetPlusPlus(
@@ -65,7 +65,7 @@ optimizer = torch.optim.Adam([
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [200, 250, 300, 350], gamma=0.6, last_epoch=- 1, verbose=False)
 elif config['scheduler'] == 'onecycle':
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr = 1e-4, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', div_factor=10, final_div_factor=20 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =1e-4, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', div_factor=10, final_div_factor=20 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 

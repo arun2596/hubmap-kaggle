@@ -18,9 +18,9 @@ df_train = pd.read_csv(TRAIN_CSV_FILE)
 df_train['kfold'] = 1
 df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
-train_loader, valid_loader = make_loader(df_train, 2, input_shape=(640,640))
+train_loader, valid_loader = make_loader(df_train, 2, input_shape=(768,768))
 
-model = segformersegmentationmitb3(mode="train")
+model = segformersegmentation(mode="train", size=768)
 
 # model = smp.UnetPlusPlus(
 #     encoder_name="efficientnet-b7",        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
@@ -31,13 +31,13 @@ model = segformersegmentationmitb3(mode="train")
 
 thresholds = [0.005,0.01, 0.02, 0.04,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"seg-b3-baseline", "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "model0.bin")), strict=True)
 model = model.cuda()
 model.eval()
 all_losses = None
 target_ls = []
 
-tta= True
+tta= False
 
 for i in valid_loader:
     #img = i['image'][0,:,:,:].view(3,640,640).permute((1, 2, 0)).numpy()

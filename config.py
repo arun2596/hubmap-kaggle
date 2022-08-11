@@ -16,6 +16,14 @@ TRAIN_DIR_640 = os.path.join(DATA_DIR, "train_640")
 TRAIN_IMAGES_DIR_640 = os.path.join(TRAIN_DIR_640, "train_images_640")
 TRAIN_MASK_DIR_640 = os.path.join(TRAIN_DIR_640, "mask_640")
 
+
+
+
+TRAIN_DIR_768 = os.path.join(DATA_DIR, "train_768")
+TRAIN_IMAGES_DIR_768 = os.path.join(TRAIN_DIR_768, "train_images_768")
+TRAIN_MASK_DIR_768 = os.path.join(TRAIN_DIR_768, "mask_768")
+
+
 CLASS_TO_ID = {
     'prostate':1,
     'spleen':2,
