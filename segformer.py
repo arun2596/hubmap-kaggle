@@ -52,3 +52,6 @@ class segformersegmentationmitb3(torch.nn.Module):
 # model = SegformerForSemanticSegmentation.from_pretrained("")
 # x = torch.rand((2,3,640,640))
 # print(model)
+
+# model = segformersegmentation(mode='train', size=640)
+# print(model)

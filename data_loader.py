@@ -26,13 +26,13 @@ class DatasetRetriever(Dataset):
         self.mode = mode
 
         if self.mode == 'train' or self.mode == 'valid':
-            self.data_dir = TRAIN_IMAGES_DIR_768
+            self.data_dir = TRAIN_IMAGES_DIR_640
         elif self.mode == 'test':
             self.data_dir = TEST_IMAGES_DIR
         else:
             raise Exception("Invalid mode: " + str(self.mode))
 
-        self.mask_data_dir = TRAIN_MASK_DIR_768
+        self.mask_data_dir = TRAIN_MASK_DIR_640
         self.transform = transform
 
     def __len__(self):
@@ -52,7 +52,7 @@ class DatasetRetriever(Dataset):
 
         image = cv2.cvtColor(cv2.imread(img_name), cv2.COLOR_BGR2RGB)
         if stain_flag:
-            image= cv2.resize(image,(768,768))
+            image= cv2.resize(image,(640,640))
 
         mask_layer = cv2.imread(os.path.join(self.mask_data_dir, str(img_id)+ "_mask.tiff"))[:,:,0]
         
@@ -78,7 +78,7 @@ class DatasetRetriever(Dataset):
 def make_loader(
         data,
         batch_size,
-        input_shape=768,
+        input_shape=640,
         fold=0,
 ):
     dataset = {'train': data[data['kfold'] != fold], 'valid': data[data['kfold'] == fold]}
