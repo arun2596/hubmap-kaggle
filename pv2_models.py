@@ -4,9 +4,6 @@ import torch.nn.functional as F
 from functools import partial
 
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
-from timm.models.registry import register_model
-from timm.models.vision_transformer import _cfg
-from mmseg.models.builder import BACKBONES
 from mmseg.utils import get_root_logger
 from mmcv.runner import load_checkpoint
 import math
@@ -337,7 +334,6 @@ def _conv_filter(state_dict, patch_size=16):
     return out_dict
 
 
-@BACKBONES.register_module()
 class pvt_v2_b0(PyramidVisionTransformerV2):
     def __init__(self, **kwargs):
         super(pvt_v2_b0, self).__init__(
@@ -345,7 +341,7 @@ class pvt_v2_b0(PyramidVisionTransformerV2):
             qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), depths=[2, 2, 2, 2], sr_ratios=[8, 4, 2, 1],
             drop_rate=0.0, drop_path_rate=0.1)
 
-@BACKBONES.register_module()
+
 class pvt_v2_b1(PyramidVisionTransformerV2):
     def __init__(self, **kwargs):
         super(pvt_v2_b1, self).__init__(
@@ -353,7 +349,7 @@ class pvt_v2_b1(PyramidVisionTransformerV2):
             qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), depths=[2, 2, 2, 2], sr_ratios=[8, 4, 2, 1],
             drop_rate=0.0, drop_path_rate=0.1)
 
-@BACKBONES.register_module()
+
 class pvt_v2_b2(PyramidVisionTransformerV2):
     def __init__(self, **kwargs):
         super(pvt_v2_b2, self).__init__(
@@ -361,7 +357,6 @@ class pvt_v2_b2(PyramidVisionTransformerV2):
             qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), depths=[3, 4, 6, 3], sr_ratios=[8, 4, 2, 1],
             drop_rate=0.0, drop_path_rate=0.1)
 
-@BACKBONES.register_module()
 class pvt_v2_b2_li(PyramidVisionTransformerV2):
     def __init__(self, **kwargs):
         super(pvt_v2_b2_li, self).__init__(
@@ -370,7 +365,6 @@ class pvt_v2_b2_li(PyramidVisionTransformerV2):
             drop_rate=0.0, drop_path_rate=0.1, linear=True)
 
 
-@BACKBONES.register_module()
 class pvt_v2_b3(PyramidVisionTransformerV2):
     def __init__(self, **kwargs):
         super(pvt_v2_b3, self).__init__(
@@ -378,7 +372,7 @@ class pvt_v2_b3(PyramidVisionTransformerV2):
             qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), depths=[3, 4, 18, 3], sr_ratios=[8, 4, 2, 1],
             drop_rate=0.0, drop_path_rate=0.1)
 
-@BACKBONES.register_module()
+
 class pvt_v2_b4(PyramidVisionTransformerV2):
     def __init__(self, **kwargs):
         super(pvt_v2_b4, self).__init__(
@@ -387,7 +381,6 @@ class pvt_v2_b4(PyramidVisionTransformerV2):
             drop_rate=0.0, drop_path_rate=0.1)
 
 
-@BACKBONES.register_module()
 class pvt_v2_b5(PyramidVisionTransformerV2):
     def __init__(self, **kwargs):
         super(pvt_v2_b5, self).__init__(

@@ -1,5 +1,4 @@
-from mmseg.models import build_segmentor 
-from mmcv.utils import Config
+
 import pv2_models
 import torch
 from torch import nn

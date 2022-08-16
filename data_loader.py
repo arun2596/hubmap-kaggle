@@ -80,6 +80,7 @@ def make_loader(
         batch_size,
         input_shape=640,
         fold=0,
+        seed=123
 ):
     dataset = {'train': data[data['kfold'] != fold], 'valid': data[data['kfold'] == fold]}
     
@@ -114,6 +115,10 @@ def make_loader(
         DatasetRetriever(dataset[mode], transform=transform[mode], mode=mode) for mode in
         ['train', 'valid']]
 
+    g_train = torch.Generator()
+    g_train.manual_seed(seed)
+    g_val =torch.Generator()
+    g_val.manual_seed(seed)
     train_sampler = RandomSampler(dataset['train'])
     train_loader = DataLoader(
         train_dataset,
@@ -121,7 +126,9 @@ def make_loader(
         sampler=train_sampler,
         pin_memory=True,
         drop_last=True,
-        num_workers=16
+        num_workers=16,
+        worker_init_fn=seed_worker,
+        generator=g_train
     )
 
     valid_sampler = SequentialSampler(dataset['valid'])
@@ -131,7 +138,10 @@ def make_loader(
         sampler=valid_sampler,
         pin_memory=True,
         drop_last=False,
-        num_workers=2
+        num_workers=2,
+        worker_init_fn=seed_worker,
+        generator=g_val
+
     )
 
     return train_loader, valid_loader

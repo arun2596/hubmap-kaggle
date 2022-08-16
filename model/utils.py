@@ -44,18 +44,26 @@ from sklearn import model_selection
 import albumentations as A
 
 import cv2
+import os
 
-
+glob_seed = 123
 def set_seed(seed):
-    np.random.seed(seed)
     random.seed(seed)
+    np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    os.environ["CUBLAS_WORKSPACE_CONFIG"]=":16:8"
+    # torch.set_deterministic(True)
+    glob_seed=seed
     return
 
+#this func is also used as a woker init func so change seed in default val
+def seed_worker(worker_id):
+    set_seed(glob_seed)
 
 
 def create_folds(data, num_splits, seed, cross_validation=True):
@@ -402,8 +410,11 @@ def DiceLoss(mask, mask_pred, target_ind, with_logits=False, smooth=1, cutoff=No
     if with_logits:
         mask_pred = torch.sigmoid(mask_pred)    
     mask_shape = mask.shape
-    mask_pred = torch.gather(mask_pred,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
-    mask = torch.gather(mask,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
+
+    mask_pred = mask_pred[:,target_ind.cpu().numpy().tolist(),:,:]
+    mask = mask[:,target_ind.cpu().numpy().tolist(),:,:]
+    # mask_pred = torch.gather(mask_pred,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
+    # mask = torch.gather(mask,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
     
     if cutoff!=None:
         mask_pred = torch.where(mask_pred>cutoff,1,0)
@@ -419,6 +430,8 @@ def DiceLoss(mask, mask_pred, target_ind, with_logits=False, smooth=1, cutoff=No
 
 def symmetric_lovasz(mask, mask_pred, target_ind):
     mask_shape = mask.shape
-    mask_pred = torch.gather(mask_pred,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
-    mask = torch.gather(mask,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
+    mask_pred = mask_pred[:,target_ind.cpu().numpy().tolist(),:,:]
+    mask = mask[:,target_ind.cpu().numpy().tolist(),:,:]
+    # mask_pred = torch.gather(mask_pred,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
+    # mask = torch.gather(mask,1, target_ind.view(-1,1,1,1).repeat(1,1,mask_shape[-2],mask_shape[-1]))
     return 0.5*(lovasz_hinge(mask_pred, mask) + lovasz_hinge(-mask_pred, 1.0 - mask))

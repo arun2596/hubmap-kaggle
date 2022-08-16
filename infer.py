@@ -19,7 +19,7 @@ df_train = pd.read_csv(TRAIN_CSV_FILE)
 df_train['kfold'] = 1
 df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
-train_loader, valid_loader = make_loader(df_train, 2, input_shape=(768,768))
+train_loader, valid_loader = make_loader(df_train, 2, input_shape=(640,640))
 
 model = SemanticFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
 
@@ -34,13 +34,14 @@ model = SemanticFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, nu
 
 thresholds = [0.005,0.01, 0.02, 0.04,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,  "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "pvt-b4-baseline", "model0.bin")), strict=True)
+
 model = model.cuda()
 model.eval()
 all_losses = None
 target_ls = []
 
-tta= False
+tta= True
 
 for i in valid_loader:
     #img = i['image'][0,:,:,:].view(3,640,640).permute((1, 2, 0)).numpy()
@@ -54,12 +55,12 @@ for i in valid_loader:
     mask_pred = torch.sigmoid(mask_pred)
     
     if tta:
-        for ang in range(2,3):
+        for ang in range(1,4):
             mask_pred_t = model.forward(torch.rot90(image,ang,(-1,-2)))
             mask_pred_t = torch.rot90(mask_pred_t,-ang,(-1,-2))
             mask_pred_t = torch.sigmoid(mask_pred_t)
             mask_pred = mask_pred_t + mask_pred
-        mask_pred=mask_pred/2
+        mask_pred=mask_pred/4
     losses = getDiceLoss(mask,mask_pred,target_ind,thresholds)
     if all_losses is None:
         all_losses=np.array(losses)

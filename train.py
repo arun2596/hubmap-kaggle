@@ -13,11 +13,13 @@ from segformer import segformersegmentation, segformersegmentationmitb3
 
 from PVT import *
 
-set_seed(123)
+# from PVT import *
+seed = 123
+set_seed(seed)
 
 df_train = pd.read_csv(TRAIN_CSV_FILE)
 df_train['kfold'] = 1
-df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
+df_train.loc[df_train.sample(frac = 0.15, random_state=seed).index.values,'kfold'] = 0
 
 config = {
 'batch_size': 4,
@@ -29,7 +31,7 @@ config = {
 'metric': 'dice',
 }
 
-train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,640))
+train_loader, valid_loader = make_loader(df_train, config['batch_size'], (640,640), seed=seed)
 
 config['log_interval'] = len(train_loader)
 
@@ -41,7 +43,7 @@ model = SemanticFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, nu
 #     layer.require_grad=False
 
 # 
-# model = segformersegmentation(mode="train", size=768)
+# model = segformersegmentation(mode="train", size=640)
 
 
 # model = smp.UnetPlusPlus(
@@ -68,14 +70,14 @@ else:
 #     ])
 
 optimizer = torch.optim.Adam([
-        {'params': model.parameters(), 'lr': 3e-4},
+        {'params': model.parameters(), 'lr': 3e-5},
     ])
 
 num_steps = len(train_loader)*config['epochs']
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [int(num_steps/3), int(num_steps*2/3)], gamma=0.6, last_epoch=- 1, verbose=False)
 elif config['scheduler'] == 'onecycle':
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =1e-4, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.3, anneal_strategy='cos', div_factor=10, final_div_factor=20 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =1e-4, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.5, anneal_strategy='cos', div_factor=5, final_div_factor=10 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 

@@ -165,7 +165,7 @@ class Trainer:
                     epoch,
                     result_dict
                 )
-                if result_dict['val_loss'][-1] < result_dict['best_val_loss']:
+                if result_dict['val_metric'][-1] < result_dict['best_val_metric']:
                     self.logger.log("{} epoch, best epoch was updated! valid_loss: {: >4.5f}, valid_metric: {: >4.5f}".format(epoch,
                                                                                                      result_dict[
                                                                                                          'val_loss'][
