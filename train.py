@@ -24,7 +24,7 @@ df_train.loc[df_train.sample(frac = 0.15, random_state=seed).index.values,'kfold
 config = {
 'batch_size': 4,
 'evaluate_interval': 1,
-'epochs': 200,
+'epochs': 400,
 'num_folds': 1,
 'scheduler': 'onecycle',
 'loss': 'symmetric_lovasz',

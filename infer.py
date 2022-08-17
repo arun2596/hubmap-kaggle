@@ -34,7 +34,7 @@ model = SemanticFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, nu
 
 thresholds = [0.005,0.01, 0.02, 0.04,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "pvt-b4-baseline", "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "model0.bin")), strict=True)
 
 model = model.cuda()
 model.eval()
