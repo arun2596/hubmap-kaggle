@@ -89,12 +89,11 @@ def make_loader(
         # FlipLR(0.3),
         # FlipTD(0.3),
         ToAlbuNumpy(),
-        AlbuHSVShift(0.3),
-        AlbuBrightnessContrast(0.3),
+        AlbuHSVShift(0.4),
+        AlbuBrightnessContrast(0.2),
         AlbuDownScale(0.15, input_shape=input_shape),
-        AlbuAngleRotate(0.6),
-        AlbuElastic(0.4),
-        AlbuCoarseDropout(0.2),
+        AlbuAngleRotate(0.4),
+        AlbuElastic(0.3),
         ToTensor(),
         Rerange(),
         Normalize(mean=[0.485, 0.456, 0.406],
@@ -126,9 +125,9 @@ def make_loader(
         sampler=train_sampler,
         pin_memory=True,
         drop_last=True,
-        num_workers=16,
-        worker_init_fn=seed_worker,
-        generator=g_train
+        num_workers=16
+        # worker_init_fn=seed_worker,
+        # generator=g_train
     )
 
     valid_sampler = SequentialSampler(dataset['valid'])
@@ -138,9 +137,9 @@ def make_loader(
         sampler=valid_sampler,
         pin_memory=True,
         drop_last=False,
-        num_workers=2,
-        worker_init_fn=seed_worker,
-        generator=g_val
+        num_workers=2
+        # worker_init_fn=seed_worker,
+        # generator=g_val
 
     )
 

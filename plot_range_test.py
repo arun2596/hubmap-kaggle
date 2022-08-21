@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 # plt.show()
 
 
-file1 = open('model/output/mit-b2-stained-1e4/log.txt', 'r')
+file1 = open('model/output/log.txt', 'r')
 Lines = file1.readlines()
 
 lr = []
@@ -44,9 +44,9 @@ print(len(valid_metric))
 # print(lr[50], lr[120])
 # print(loss)
 
-plt.plot(range(len(train_loss)), train_loss)
-# plt.plot(range(len(train_loss)), train_metric)
-plt.plot(range(len(train_loss)), valid_loss)
-# plt.plot(range(len(train_loss)), valid_metric)
+# plt.plot(range(len(train_loss)), train_loss)
+plt.plot(range(len(train_loss)), train_metric)
+# plt.plot(range(len(train_loss)), valid_loss)
+plt.plot(range(len(train_loss)), valid_metric)
 plt.show()
 
