@@ -24,7 +24,7 @@ df_train.loc[df_train.sample(frac = 0.15, random_state=seed).index.values,'kfold
 config = {
 'batch_size': 4,
 'evaluate_interval': 1,
-'epochs': 100,
+'epochs': 200,
 'num_folds': 1,
 'scheduler': 'onecycle',
 'loss': 'symmetric_lovasz',
@@ -77,7 +77,7 @@ num_steps = len(train_loader)*config['epochs']
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [int(num_steps/3), int(num_steps*2/3)], gamma=0.6, last_epoch=- 1, verbose=False)
 elif config['scheduler'] == 'onecycle':
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =1e-4, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.35, anneal_strategy='cos', div_factor=1, final_div_factor=1 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =2e-4, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.2, anneal_strategy='cos', div_factor=1, final_div_factor=3 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 
