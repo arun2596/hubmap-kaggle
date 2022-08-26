@@ -1,3 +1,4 @@
+from itertools import product
 import segmentation_models_pytorch as smp
 import torch
 import matplotlib.pyplot as plt
@@ -19,7 +20,7 @@ set_seed(seed)
 
 df_train = pd.read_csv(TRAIN_CSV_FILE)
 df_train['kfold'] = 1
-df_train.loc[df_train.sample(frac = 0.15, random_state=seed).index.values,'kfold'] = 0
+df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
 config = {
 'batch_size': 4,
@@ -69,15 +70,19 @@ else:
 #         {'params': model.encoder.parameters(), 'lr': 1e-3},
 #     ])
 
+
+backbone_param_names = [y for y,_ in model.backbone.named_parameters()]
 optimizer = torch.optim.Adam([
-        {'params': model.parameters(), 'lr': 1e-4},
+        {'params': model.backbone.parameters(), 'lr': 8e-5},
+        {'params': [par for x, par in model.named_parameters() if x.replace('backbone.','') not in backbone_param_names], 'lr':2e-4}
+
     ])
 
 num_steps = len(train_loader)*config['epochs']
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [int(num_steps/3), int(num_steps*2/3)], gamma=0.6, last_epoch=- 1, verbose=False)
 elif config['scheduler'] == 'onecycle':
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =2e-4, epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.2, anneal_strategy='cos', div_factor=1, final_div_factor=3 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[8e-5, 2e-4], epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.4, anneal_strategy='cos', div_factor=10, final_div_factor=10 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 

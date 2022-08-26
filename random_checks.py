@@ -50,7 +50,7 @@ for i in train_loader:
     # cv2.imshow("original", (mask.numpy()*255).astype('uint8'))
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
-    print(sum( mask.numpy()))
+    # print(sum( mask.numpy()))
 
     cv2.imshow("mask", mask.numpy().astype('uint8')*255)
     cv2.imshow("img",img.astype('uint8'))
@@ -58,7 +58,7 @@ for i in train_loader:
     img2 = viz_img(img.astype('uint8') , res=(640,640), text=None, name="check", mask=mask.numpy().astype('uint8'))
     cv2.imshow("mask_img", img2)
     cv2.waitKey()
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
 
 
 # checking lung images
