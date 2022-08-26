@@ -3,6 +3,7 @@ import pv2_models
 import torch
 from torch import nn
 import torch.nn.functional as F
+from daformer import daformer_conv3x3
 
 # model_config = Config.fromfile("fpn_pvtv2_b2_ade20k_40k.py")
 # model = build_segmentor(model_config.model)
@@ -94,9 +95,40 @@ class SemanticFPN_PVT(torch.nn.Module):
 
         s2 = F.relu(self.gn1(self.semantic_branch(p2)))
         return self._upsample(self.conv3(s2 + s3 + s4 + s5), 4 * h, 4 * w)
-    
 
-# model = SemanticFPN_PVT()
+
+class DaformerFPN_PVT(torch.nn.Module):
+    def __init__(self, backbone_model = "pvt_v2_b4", mode='train', size=640, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth", decoder=daformer_conv3x3, decoder_dim=256):
+        super().__init__()
+        self.mode=mode
+        self.size=size
+        self.decoder_dim=decoder_dim
+        self.num_classes=num_classes
+
+        self.backbone_model_name = backbone_model
+        self.decoder = decoder(encoder_dim=[64,128,320,512], decoder_dim=self.decoder_dim)
+        self.backbone = getattr(pv2_models, self.backbone_model_name)()
+        if mode=='train':
+            self.backbone.load_state_dict(torch.load(pt_weights_dir), strict=False)
+        # LOAD THE PRETRAINED BACKBONE HERE IF ITS IN TRAIN MODE
+        
+        self.final_conv = nn.Conv2d(self.decoder_dim, self.num_classes,1)
+    
+    def _upsample(self, x, h, w):
+        return F.interpolate(x, size=(h, w), mode='bilinear', align_corners=True)
+
+
+
+    def forward(self, x):
+        # Bottom-up using backbone
+        low_level_features = self.backbone(x)
+        df_out, decoder_out = self.decoder(low_level_features)
+        h,w = df_out.shape[-2:]
+        return self._upsample(self.final_conv(df_out), 4 * h, 4 * w)
+
+
+
+# model = DaformerFPN_PVT()
 # model = model.cuda()
 # x = torch.rand((1,3,640,640))
 # x = x.cuda()

@@ -11,7 +11,7 @@ from visualization import viz_img
 
 from segformer import segformersegmentation, segformersegmentationmitb3
 
-from PVT import SemanticFPN_PVT
+from PVT import SemanticFPN_PVT, DaformerFPN_PVT
 
 set_seed(123)
 
@@ -21,7 +21,7 @@ df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 
 train_loader, valid_loader = make_loader(df_train, 2, input_shape=(640,640))
 
-model = SemanticFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
+model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
 
 # model = segformersegmentation(mode="train", size=768)
 
@@ -41,11 +41,11 @@ model.eval()
 all_losses = None
 target_ls = []
 
-tta= True
+tta= False
 
+# with torch.no_grad():
 for i in valid_loader:
     #img = i['image'][0,:,:,:].view(3,640,640).permute((1, 2, 0)).numpy()
-  
     mask_shape = i['mask'].shape
     mask = i['mask'].cuda()
     target_ind = i['target_ind'].cuda()
@@ -60,7 +60,7 @@ for i in valid_loader:
             mask_pred_t = torch.rot90(mask_pred_t,-ang,(-1,-2))
             mask_pred_t = torch.sigmoid(mask_pred_t)
             mask_pred = mask_pred_t + mask_pred
-        mask_pred=mask_pred/4
+        mask_pred=mask_pred/2
     losses = getDiceLoss(mask,mask_pred,target_ind,thresholds)
     if all_losses is None:
         all_losses=np.array(losses)
@@ -69,6 +69,9 @@ for i in valid_loader:
     
     target_ls.append(target_ind.item())
     
+    del mask
+    del target_ind
+    del image
     # mask_pred = mask_pred.detach().cpu()
     # target_ind = target_ind.detach().cpu()
     # mask = mask.detach().cpu()
