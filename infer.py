@@ -41,37 +41,37 @@ model.eval()
 all_losses = None
 target_ls = []
 
-tta= False
+tta= True
 
-# with torch.no_grad():
-for i in valid_loader:
-    #img = i['image'][0,:,:,:].view(3,640,640).permute((1, 2, 0)).numpy()
-    mask_shape = i['mask'].shape
-    mask = i['mask'].cuda()
-    target_ind = i['target_ind'].cuda()
-    image = i['image'].cuda() 
-    
-    mask_pred = model.forward(image)
-    mask_pred = torch.sigmoid(mask_pred)
-    
-    if tta:
-        for ang in range(1,4):
-            mask_pred_t = model.forward(torch.rot90(image,ang,(-1,-2)))
-            mask_pred_t = torch.rot90(mask_pred_t,-ang,(-1,-2))
-            mask_pred_t = torch.sigmoid(mask_pred_t)
-            mask_pred = mask_pred_t + mask_pred
-        mask_pred=mask_pred/2
-    losses = getDiceLoss(mask,mask_pred,target_ind,thresholds)
-    if all_losses is None:
-        all_losses=np.array(losses)
-    else:
-        all_losses=np.vstack((all_losses,np.array(losses)))
-    
-    target_ls.append(target_ind.item())
-    
-    del mask
-    del target_ind
-    del image
+with torch.no_grad():
+    for i in valid_loader:
+        #img = i['image'][0,:,:,:].view(3,640,640).permute((1, 2, 0)).numpy()
+        mask_shape = i['mask'].shape
+        mask = i['mask'].cuda()
+        target_ind = i['target_ind'].cuda()
+        image = i['image'].cuda() 
+        
+        mask_pred = model.forward(image)
+        mask_pred = torch.sigmoid(mask_pred)
+        
+        if tta:
+            for ang in range(1,4):
+                mask_pred_t = model.forward(torch.rot90(image,ang,(-1,-2)))
+                mask_pred_t = torch.rot90(mask_pred_t,-ang,(-1,-2))
+                mask_pred_t = torch.sigmoid(mask_pred_t)
+                mask_pred = mask_pred_t + mask_pred
+            mask_pred=mask_pred/4
+        losses = getDiceLoss(mask,mask_pred,target_ind,thresholds)
+        if all_losses is None:
+            all_losses=np.array(losses)
+        else:
+            all_losses=np.vstack((all_losses,np.array(losses)))
+        
+        target_ls.append(target_ind.item())
+        
+        del mask
+        del target_ind
+        del image
     # mask_pred = mask_pred.detach().cpu()
     # target_ind = target_ind.detach().cpu()
     # mask = mask.detach().cpu()

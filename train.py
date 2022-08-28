@@ -38,7 +38,7 @@ config['log_interval'] = len(train_loader)
 
 model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
 
-# model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"pt_b3",  "model0.bin")), strict=True)
+# model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"pvt-b4-daformer-baseline",  "model0.bin")), strict=True)
 
 # for layer in model.backbone.parameters():
 #     layer.require_grad=False
@@ -71,7 +71,7 @@ else:
 #     ])
 
 # optimizer = torch.optim.Adam([
-#         {'params': model.parameters(), 'lr': 8e-5}
+#         {'params': model.parameters(), 'lr': 5e-6}
 
 #     ])
 
@@ -87,7 +87,7 @@ num_steps = len(train_loader)*config['epochs']
 if config['scheduler']=='multistep':
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [int(num_steps/3), int(num_steps*2/3)], gamma=0.6, last_epoch=- 1, verbose=False)
 elif config['scheduler'] == 'onecycle':
-    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[8e-5,2e-4], epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.4, anneal_strategy='cos', div_factor=10, final_div_factor=10 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[8e-5,2e-4], epochs=config['epochs'], steps_per_epoch=len(train_loader), pct_start=0.5, anneal_strategy='cos', div_factor=10, final_div_factor=10 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
 trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config)
 trainHandler.run()
 

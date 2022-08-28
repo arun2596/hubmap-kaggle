@@ -42,7 +42,7 @@ class DatasetRetriever(Dataset):
         img_id, rle = self.img_id[item], self.rles[item]
 
         #adding stained images
-        stain_prob=0.20
+        stain_prob=0.40
         stain_flag=False
         if random.random()<stain_prob and self.mode=='train':
             stain_flag=True
@@ -94,7 +94,7 @@ def make_loader(
         AlbuDownScale(0.15, input_shape=input_shape),
         AlbuAngleRotate(0.6),
         AlbuElastic(0.4),
-        AlbuCoarseDropout(0.2),
+        # AlbuCoarseDropout(0.2),
         ToTensor(),
         # Rerange(),
         # Normalize(mean=[0.485, 0.456, 0.406],
