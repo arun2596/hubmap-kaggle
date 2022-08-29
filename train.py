@@ -25,9 +25,9 @@ df_train.loc[df_train.sample(frac = 0.15).index.values,'kfold'] = 0
 config = {
 'batch_size': 4,
 'evaluate_interval': 1,
-'epochs': 200,
+'epochs': 20,
 'num_folds': 1,
-'scheduler': 'onecycle',
+'scheduler': 'multistep',
 'loss': 'symmetric_lovasz',
 'metric': 'dice',
 }
@@ -38,7 +38,7 @@ config['log_interval'] = len(train_loader)
 
 model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
 
-# model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"pvt-b4-daformer-baseline",  "model0.bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"pvt-b4-daformer-40pstained",  "model0.bin")), strict=True)
 
 # for layer in model.backbone.parameters():
 #     layer.require_grad=False
@@ -70,18 +70,18 @@ else:
 #         {'params': model.encoder.parameters(), 'lr': 1e-3},
 #     ])
 
-# optimizer = torch.optim.Adam([
-#         {'params': model.parameters(), 'lr': 5e-6}
-
-#     ])
-
-
-backbone_param_names = [y for y,_ in model.backbone.named_parameters()]
 optimizer = torch.optim.Adam([
-        {'params': model.backbone.parameters(), 'lr': 8e-5},
-        {'params': [par for x, par in model.named_parameters() if x.replace('backbone.','') not in backbone_param_names], 'lr':2e-4}
+        {'params': model.parameters(), 'lr': 1e-4}
 
     ])
+
+
+# backbone_param_names = [y for y,_ in model.backbone.named_parameters()]
+# optimizer = torch.optim.Adam([
+#         {'params': model.backbone.parameters(), 'lr': 8e-5},
+#         {'params': [par for x, par in model.named_parameters() if x.replace('backbone.','') not in backbone_param_names], 'lr':2e-4}
+
+#     ])
 
 num_steps = len(train_loader)*config['epochs']
 if config['scheduler']=='multistep':
