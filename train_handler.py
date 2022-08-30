@@ -11,7 +11,7 @@ from config import *
 
 class TrainHandler:
 
-    def __init__(self, model, train_loader, valid_loader, optimizer, scheduler, config):
+    def __init__(self, model, train_loader, valid_loader, optimizer, scheduler, config,fold=0):
         self.model=model
         self.optimizer = optimizer
         self.scheduler=scheduler
@@ -19,32 +19,32 @@ class TrainHandler:
         self.valid_loader = valid_loader
         self.config = config
         self.folder_name = MODEL_OUTPUT_DIR
-
+        self.fold=fold
         self.logger = Logger(os.path.join(MODEL_OUTPUT_DIR, 'log.txt'))
         self.log_interval = config['log_interval']
     def run(self):
 
         result_list = []
         self.logger.log('Training model')
-        for fold in range(self.config['num_folds']):
-            self.logger.log('----')
-            self.logger.log(f'FOLD: {fold}')
+        
+        self.logger.log('----')
+        self.logger.log(f'FOLD: {self.fold}')
 
-            result_dict = self.run_fold(model = self.model,
-                                        train_loader = self.train_loader,
-                                        valid_loader = self.valid_loader,
-                                        optimizer = self.optimizer,
-                                        scheduler = self.scheduler,
-                                        batch_size=self.config['batch_size'],
-                                        fold=fold,
-                                        model_ouput_location=self.folder_name,
-                                        epochs=self.config['epochs'],
-                                        evaluate_interval_fraction=self.config['evaluate_interval'],
-                                        strict=True)
-            result_list.append(result_dict)
-            self.logger.log('----')
+        result_dict = self.run_fold(model = self.model,
+                                    train_loader = self.train_loader,
+                                    valid_loader = self.valid_loader,
+                                    optimizer = self.optimizer,
+                                    scheduler = self.scheduler,
+                                    batch_size=self.config['batch_size'],
+                                    fold=self.fold,
+                                    model_ouput_location=self.folder_name,
+                                    epochs=self.config['epochs'],
+                                    evaluate_interval_fraction=self.config['evaluate_interval'],
+                                    strict=True)
+        result_list.append(result_dict)
+        self.logger.log('----')
 
-        [self.logger.log("FOLD::" + str(i) + "Loss:: " + str(fold['best_val_metric'])) for i, fold in
+        [self.logger.log("FOLD::" + str(self.fold) + "Loss:: " + str(fold['best_val_metric'])) for i, fold in
              enumerate(result_list)]
 
         self.logger.save_log()

@@ -46,13 +46,13 @@ class DatasetRetriever(Dataset):
         stain_flag=False
         if random.random()<stain_prob and self.mode=='train':
             stain_flag=True
-            img_name = os.path.join(STAINED_IMAGES_DIR, str(img_id) + '.tiff')
+            img_name = os.path.join(STAINED_IMAGES_DIR_640, str(img_id) + '.tiff')
         else:
             img_name = os.path.join(self.data_dir, str(img_id) + '.tiff')
 
         image = cv2.cvtColor(cv2.imread(img_name), cv2.COLOR_BGR2RGB)
-        if stain_flag:
-            image= cv2.resize(image,(640,640))
+        # if stain_flag:
+        #     image= cv2.resize(image,(640,640))
 
         mask_layer = cv2.imread(os.path.join(self.mask_data_dir, str(img_id)+ "_mask.tiff"))[:,:,0]
         
