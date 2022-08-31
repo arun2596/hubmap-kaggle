@@ -96,9 +96,9 @@ def make_loader(
         AlbuElastic(0.4),
         # AlbuCoarseDropout(0.2),
         ToTensor(),
-        # Rerange(),
-        # Normalize(mean=[0.485, 0.456, 0.406],
-        #          std=[0.229, 0.224, 0.225]),
+        Rerange(),
+        Normalize(mean=[0.485, 0.456, 0.406],
+                 std=[0.229, 0.224, 0.225]),
         
     ]),
         'valid': transforms.Compose([
