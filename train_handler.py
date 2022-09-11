@@ -114,6 +114,8 @@ class Trainer:
 
         self.model.train()
 
+        grad_accum = self.config['grad_accum']
+
         evaluate_interval = int((len(train_loader) - 1) * self.evaluate_interval_fraction)
         for batch_idx, batch_data in enumerate(train_loader):
             image, mask, target_ind = batch_data['image'], batch_data['mask'], batch_data['target_ind']
@@ -135,13 +137,14 @@ class Trainer:
             count += target_ind.size(0)
             losses.update(loss.item(), target_ind.size(0))  # ------ may need to change this ?
 
-            loss.backward()
+            (loss / grad_accum).backward() 
 
-            self.optimizer.step()
+            if (epoch*len(train_loader) + batch_idx +1) % grad_accum == 0:
+                self.optimizer.step()
+                
+                self.model.zero_grad()
 
-            self.optimizer.zero_grad()
-
-            self.scheduler.step()
+                self.scheduler.step()
 
             if (batch_idx+1) % self.log_interval == 0 :
                 _s = str(len(str(len(train_loader.sampler))))

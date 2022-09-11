@@ -22,7 +22,7 @@ df_train = pd.read_csv(TRAIN_CSV_FILE)
 df_train = create_folds(data= df_train, num_splits=5, seed=seed, cross_validation=True)
 
 
-fold = 3
+fold = 0
 
 print("fold is :", fold)
 
@@ -41,7 +41,7 @@ model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, nu
 
 thresholds = [0.005,0.01, 0.02, 0.04,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "pvt-b4-daformer-5fold","model"+ str(fold) + ".bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "pvt-b4-daformer-768","model"+ str(fold) + ".bin")), strict=True)
 
 model = model.cuda()
 model.eval()

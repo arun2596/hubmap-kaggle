@@ -6,12 +6,12 @@ from model.utils import rleToMask
 from PIL import Image
 
 df = pd.read_csv(TRAIN_CSV_FILE)
-res = 640
+res = 768
 
 for ind, row in df.iterrows():
     img = cv2.imread(os.path.join(STAINED_IMAGES_DIR, str(row['id']) + ".tiff" ))
     img = cv2.resize(img, (res,res))
-    cv2.imwrite(os.path.join(STAINED_IMAGES_DIR_640,str(row['id']) + ".tiff" ),img)
+    cv2.imwrite(os.path.join(STAINED_IMAGES_DIR_768,str(row['id']) + ".tiff" ),img)
 
     # mask = rleToMask(row['rle'],row['img_height'],row['img_width'])
     # mask = cv2.resize(mask, (res,res))

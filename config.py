@@ -12,6 +12,8 @@ TEST_IMAGES_DIR = os.path.join(DATA_DIR, "raw", "test_images")
 
 STAINED_IMAGES_DIR = os.path.join(DATA_DIR, "stained", "train_images")
 STAINED_IMAGES_DIR_640 = os.path.join(DATA_DIR, "stained", "train_images_640")
+STAINED_IMAGES_DIR_768 = os.path.join(DATA_DIR, "stained", "train_images_768")
+
 
 TRAIN_DIR_640 = os.path.join(DATA_DIR, "train_640")
 TRAIN_IMAGES_DIR_640 = os.path.join(TRAIN_DIR_640, "train_images_640")

@@ -26,13 +26,13 @@ class DatasetRetriever(Dataset):
         self.mode = mode
 
         if self.mode == 'train' or self.mode == 'valid':
-            self.data_dir = TRAIN_IMAGES_DIR_640
+            self.data_dir = TRAIN_IMAGES_DIR_768
         elif self.mode == 'test':
             self.data_dir = TEST_IMAGES_DIR
         else:
             raise Exception("Invalid mode: " + str(self.mode))
 
-        self.mask_data_dir = TRAIN_MASK_DIR_640
+        self.mask_data_dir = TRAIN_MASK_DIR_768
         self.transform = transform
 
     def __len__(self):
@@ -46,7 +46,7 @@ class DatasetRetriever(Dataset):
         stain_flag=False
         if random.random()<stain_prob and self.mode=='train':
             stain_flag=True
-            img_name = os.path.join(STAINED_IMAGES_DIR_640, str(img_id) + '.tiff')
+            img_name = os.path.join(STAINED_IMAGES_DIR_768, str(img_id) + '.tiff')
         else:
             img_name = os.path.join(self.data_dir, str(img_id) + '.tiff')
 
