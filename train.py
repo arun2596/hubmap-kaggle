@@ -93,7 +93,7 @@ for fold in range(1):
     if config['scheduler']=='multistep':
         scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [int(num_steps/3), int(num_steps*2/3)], gamma=0.6, last_epoch=- 1, verbose=False)
     elif config['scheduler'] == 'onecycle':
-        scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[2e-4, 8e-5], total_steps = num_steps, pct_start=0.5, anneal_strategy='cos',  div_factor=10, final_div_factor=10 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+        scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[4e-4, 4e-4], total_steps = num_steps, pct_start=0.4, anneal_strategy='cos',  div_factor=20, final_div_factor=25 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
     trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config, fold=fold)
     trainHandler.run()
 
