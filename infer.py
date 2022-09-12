@@ -26,9 +26,9 @@ fold = 0
 
 print("fold is :", fold)
 
-train_loader, valid_loader = make_loader(df_train, 2, input_shape=(640,640), fold=fold)
+train_loader, valid_loader = make_loader(df_train, 2, input_shape=(768,768), fold=fold)
 
-model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
+model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=768, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
 
 # model = segformersegmentation(mode="train", size=768)
 
@@ -41,7 +41,7 @@ model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=640, nu
 
 thresholds = [0.005,0.01, 0.02, 0.04,0.05,0.1,0.2,0.3, 0.4, 0.45, 0.5, 0.55,0.6,0.7,0.8,0.9]
 
-model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "pvt-b4-daformer-768","model"+ str(fold) + ".bin")), strict=True)
+model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR, "model"+ str(fold) + ".bin")), strict=True)
 
 model = model.cuda()
 model.eval()
