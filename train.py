@@ -28,7 +28,7 @@ config = {
 'batch_size': 2,
 'evaluate_interval': 1,
 'epochs': 200,
-'grad_accum': 8,
+'grad_accum': 16,
 'num_folds': 1,
 'scheduler': 'onecycle',
 'loss': 'symmetric_lovasz',
