@@ -13,6 +13,7 @@ from train_handler import TrainHandler
 from segformer import segformersegmentation, segformersegmentationmitb3
 
 from PVT import *
+from COAT import *
 
 # from PVT import *
 seed = 123
@@ -27,7 +28,7 @@ df_train = create_folds(data= df_train, num_splits=5, seed=seed, cross_validatio
 config = {
 'batch_size': 2,
 'evaluate_interval': 1,
-'epochs': 300,
+'epochs': 200,
 'grad_accum': 16,
 'num_folds': 1,
 'scheduler': 'onecycle',
@@ -42,7 +43,7 @@ for fold in range(1):
     
     train_loader, valid_loader = make_loader(df_train, config['batch_size'], (768,768), seed=seed, fold=fold)
     config['log_interval'] = len(train_loader)
-    model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=768, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
+    model = DaformerFPN_COAT(backbone_model = "coat_lite_medium", mode='train', size=768, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder_dim=320)
 
     # model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"pvt-b4-daformer-40pstained",  "model0.bin")), strict=True)
 
@@ -93,7 +94,7 @@ for fold in range(1):
     if config['scheduler']=='multistep':
         scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [int(num_steps/3), int(num_steps*2/3)], gamma=0.6, last_epoch=- 1, verbose=False)
     elif config['scheduler'] == 'onecycle':
-        scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[4e-4, 4e-4], total_steps = num_steps, pct_start=0.3, anneal_strategy='cos',  div_factor=20, final_div_factor=25 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+        scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[4e-4, 4e-4], total_steps = num_steps, pct_start=0.5, anneal_strategy='cos',  div_factor=20, final_div_factor=25 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
     trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config, fold=fold)
     trainHandler.run()
 

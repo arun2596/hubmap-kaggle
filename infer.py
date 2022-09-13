@@ -12,6 +12,9 @@ from visualization import viz_img
 from segformer import segformersegmentation, segformersegmentationmitb3
 
 from PVT import SemanticFPN_PVT, DaformerFPN_PVT
+
+from COAT import *
+
 seed=123
 set_seed(seed)
 
@@ -28,7 +31,9 @@ print("fold is :", fold)
 
 train_loader, valid_loader = make_loader(df_train, 2, input_shape=(768,768), fold=fold)
 
-model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=768, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
+model = DaformerFPN_COAT(backbone_model = "coat_lite_medium", mode='train', size=768, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder_dim=320)
+
+# model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', size=768, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
 
 # model = segformersegmentation(mode="train", size=768)
 
