@@ -8,18 +8,18 @@ from daformer import daformer_conv3x3
 
 
 class DaformerFPN_COAT(torch.nn.Module):
-    def __init__(self, backbone_model = "coat_lite_medium", mode='train', size=640, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder=daformer_conv3x3, decoder_dim=320):
+    def __init__(self, backbone_model = "coat_lite_medium", mode='train', size=640, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder=daformer_conv3x3, decoder_dim=320, encoder_dim = [128,256,320,512], load_strict=False):
         super().__init__()
         self.mode=mode
         self.size=size
         self.decoder_dim=decoder_dim
         self.num_classes=num_classes
-
+        self.encoder_dim = encoder_dim
         self.backbone_model_name = backbone_model
-        self.decoder = decoder(encoder_dim=[128,256,320,512], decoder_dim=self.decoder_dim)
-        self.backbone = getattr(coat_models, "coat_lite_medium")(return_interm_layers=True)
+        self.decoder = decoder(encoder_dim=self.encoder_dim, decoder_dim=self.decoder_dim)
+        self.backbone = getattr(coat_models, self.backbone_model_name)(return_interm_layers=True)
         if mode=='train':
-            self.backbone.load_state_dict(torch.load(pt_weights_dir)['model'], strict=False)
+            self.backbone.load_state_dict(torch.load(pt_weights_dir)['model'], strict=load_strict)
         # LOAD THE PRETRAINED BACKBONE HERE IF ITS IN TRAIN MODE
         
         self.final_conv = nn.Conv2d(self.decoder_dim, self.num_classes,1)

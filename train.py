@@ -41,9 +41,12 @@ config = {
 
 for fold in range(1):
     
-    train_loader, valid_loader = make_loader(df_train, config['batch_size'], (768,768), seed=seed, fold=fold)
+    train_loader, valid_loader = make_loader(df_train, config['batch_size'], (1024,1024), seed=seed, fold=fold)
     config['log_interval'] = len(train_loader)
-    model = DaformerFPN_COAT(backbone_model = "coat_lite_medium", mode='train', size=768, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder_dim=320)
+    
+    # model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', decoder_dim = 320 , size=768, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
+    model = DaformerFPN_COAT(backbone_model = "coat_small", mode='train', size=1024, num_classes=5, pt_weights_dir = "model/coat_small_7479cf9b.pth", decoder_dim=320, encoder_dim = [152, 320, 320, 320] , load_strict=False)
+    # model = DaformerFPN_COAT(backbone_model = "coat_lite_medium", mode='train', size=768, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder_dim=320)
 
     # model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"pvt-b4-daformer-40pstained",  "model0.bin")), strict=True)
 
