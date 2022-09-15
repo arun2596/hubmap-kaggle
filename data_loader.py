@@ -91,7 +91,7 @@ def make_loader(
         ToAlbuNumpy(),
         AlbuHSVShift(0.3),
         AlbuBrightnessContrast(0.3),
-        AlbuDownScale(0.15, input_shape=input_shape),
+        AlbuDownScale(0.40, input_shape=input_shape),
         AlbuAngleRotate(0.6),
         AlbuElastic(0.4),
         # AlbuCoarseDropout(0.2),
