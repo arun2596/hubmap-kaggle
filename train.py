@@ -45,8 +45,8 @@ for fold in range(1):
     config['log_interval'] = len(train_loader)
     
     # model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", mode='train', decoder_dim = 320 , size=768, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
-    model = DaformerFPN_COAT(backbone_model = "coat_small", mode='train', size=1024, num_classes=5, pt_weights_dir = "model/coat_small_7479cf9b.pth", decoder_dim=512, encoder_dim = [152, 320, 320, 320] , load_strict=False)
-    # model = DaformerFPN_COAT(backbone_model = "coat_lite_medium", mode='train', size=768, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder_dim=320)
+    # model = DaformerFPN_COAT(backbone_model = "coat_small", mode='train', size=1024, num_classes=5, pt_weights_dir = "model/coat_small_7479cf9b.pth", decoder_dim=512, encoder_dim = [152, 320, 320, 320] , load_strict=False)
+    model = DaformerFPN_COAT(backbone_model = "coat_lite_medium", mode='train', size=1024, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder_dim=320)
 
     # model.load_state_dict(torch.load(os.path.join(MODEL_OUTPUT_DIR,"pvt-b4-daformer-40pstained",  "model0.bin")), strict=True)
 
@@ -97,7 +97,7 @@ for fold in range(1):
     if config['scheduler']=='multistep':
         scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [int(num_steps/3), int(num_steps*2/3)], gamma=0.6, last_epoch=- 1, verbose=False)
     elif config['scheduler'] == 'onecycle':
-        scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[5e-4, 5e-4], total_steps = num_steps, pct_start=0.4, anneal_strategy='cos',  div_factor=10, final_div_factor=15 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
+        scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr =[4e-4, 4e-4], total_steps = num_steps, pct_start=0.5, anneal_strategy='cos',  div_factor=20, final_div_factor=25 ,cycle_momentum=True, base_momentum=0.85, max_momentum=0.95, last_epoch=- 1)
     trainHandler = TrainHandler(model, train_loader, valid_loader, optimizer, scheduler, config, fold=fold)
     trainHandler.run()
 
