@@ -207,18 +207,25 @@ class daformer_conv3x3 (DaformerDecoder):
             fuse = 'conv3x3',
             **kwargs
         )
+
+class daformer_conv1x1 (DaformerDecoder):
+    def __init__(self, **kwargs):
+        super(daformer_conv1x1, self).__init__(
+            fuse = 'conv1x1',
+            **kwargs
+        )
   
  
 if 0:
     m = daformer_conv3x3(
-        encoder_dim = [32, 64, 160, 256],
+        encoder_dim = [32, 64, 160, 256, 512],
         decoder_dim = 256,
         dilation = None,
         
     )
     print(m)
     feature = [
-         torch.rand(1,c,64//(2**i),64//(2**i)) for i,c in enumerate([32, 64, 160, 256])
+         torch.rand(1,c,64//(2**i),64//(2**i)) for i,c in enumerate([32, 64, 160, 256, 512])
     ]
     y, out = m(feature)
     print(y.shape)

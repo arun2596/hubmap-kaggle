@@ -134,7 +134,7 @@ def make_loader(
     valid_sampler = SequentialSampler(dataset['valid'])
     valid_loader = DataLoader(
         valid_dataset,
-        batch_size=batch_size // 2,
+        batch_size=max(1,batch_size // 2),
         sampler=valid_sampler,
         pin_memory=True,
         drop_last=False,

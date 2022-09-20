@@ -17,6 +17,8 @@ from COAT import *
 
 from COAT_level5 import DaformerFPN_COAT_5level
 
+from daformer import daformer_conv1x1
+
 seed=123
 set_seed(seed)
 
@@ -41,8 +43,8 @@ train_loader, valid_loader = make_loader(df_train, 2, input_shape=(1024,1024), f
 
 # model = DaformerFPN_COAT_5level(backbone_model = "coat_small", mode='train', size=1024, num_classes=5, pt_weights_dir = "model/coat_small_7479cf9b.pth", decoder_dim=320, encoder_dim = [152, 320, 320, 320, 320] , load_strict=False)
 
-model = DaformerFPN_COAT_5level(backbone_model = "coat_lite_medium", mode='train', size=1024, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder_dim=320, encoder_dim = [128, 256, 320, 512, 640] , load_strict=False)
-
+# model = DaformerFPN_COAT_5level(backbone_model = "coat_lite_medium", mode='train', size=1024, num_classes=5, pt_weights_dir = "model/coat_lite_medium_384x384_f9129688.pth", decoder_dim=320, encoder_dim = [128, 256, 320, 512, 640] , load_strict=False)
+model = DaformerFPN_COAT_5level(backbone_model = "coat_small", mode='train', size=1024, num_classes=5, pt_weights_dir = "model/coat_small_7479cf9b.pth", decoder = daformer_conv1x1, decoder_dim=320, encoder_dim = [152, 320, 320, 320, 320] , load_strict=False)
 # model = DaformerFPN_PVT(backbone_model = "pvt_v2_b4", decoder_dim=256, mode='train', size=768, num_classes=5, pt_weights_dir = "model/pvt_v2_b4.pth")
 
 # model = segformersegmentation(mode="train", size=768)
